@@ -278,6 +278,9 @@ select:focus { border-color:var(--accent); }
   <button class="tab" onclick="switchTab('events', this)">
     Eventos <span class="tab-count" id="tc-events">6</span>
   </button>
+  <button class="tab" onclick="switchTab('playground', this)">
+    Playground <span class="tab-count" style="background:rgba(212,110,55,0.2);color:#C4622D">Liquid</span>
+  </button>
 </div>
 
 <main>
@@ -349,6 +352,58 @@ select:focus { border-color:var(--accent); }
       <div class="results-count" id="e-count"></div>
     </div>
     <div class="cards" id="e-grid"></div>
+  </div>
+
+
+  <!-- ══ PLAYGROUND ══ -->
+  <div class="tab-panel" id="panel-playground">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px" id="pg-grid">
+
+      <!-- Left: Editor + Output -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--hint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Template Liquid</div>
+          <textarea id="pg-editor" spellcheck="false" style="width:100%;height:260px;padding:12px;background:var(--afya-navy);color:#e8eaf0;font-family:var(--font-mono);font-size:12px;line-height:1.7;border:none;border-radius:var(--r);resize:vertical;outline:none" placeholder="Digite seu template Liquid aqui...
+Ex: Olá {% if custom_attribute.${lp_educon_name} != blank %}{{ custom_attribute.${lp_educon_name} }}{% else %}médico{% endif %}!"></textarea>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="font-size:11px;font-family:var(--font-mono);color:var(--hint);text-transform:uppercase;letter-spacing:.04em">Output renderizado</div>
+            <button onclick="runLiquid()" style="padding:5px 14px;background:var(--afya-magenta);border:none;border-radius:var(--r-sm);color:white;font-family:var(--font-body);font-size:12px;font-weight:500;cursor:pointer">▶ Renderizar</button>
+          </div>
+          <div id="pg-output" style="min-height:80px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:var(--font-body)">
+            <span style="color:var(--hint);font-size:13px">O output aparecerá aqui após renderizar.</span>
+          </div>
+        </div>
+
+        <!-- Snippets prontos -->
+        <div>
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--hint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Snippets prontos</div>
+          <div style="display:flex;flex-direction:column;gap:6px" id="snippets-list"></div>
+        </div>
+      </div>
+
+      <!-- Right: Perfil de teste -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="font-size:11px;font-family:var(--font-mono);color:var(--hint);text-transform:uppercase;letter-spacing:.04em">Perfil de teste</div>
+          <select id="pg-profile" onchange="loadProfile()" style="font-size:12px;padding:4px 24px 4px 8px">
+            <option value="">Selecionar perfil...</option>
+            <option value="lead_puro">Lead puro</option>
+            <option value="aluno_1">Aluno ativo — 1 curso</option>
+            <option value="aluno_multi">Aluno ativo — múltiplos cursos</option>
+            <option value="exaluno_1">Ex-aluno — 1 curso</option>
+            <option value="exaluno_multi">Ex-aluno — múltiplos cursos</option>
+            <option value="medico_crm">Médico com CRM</option>
+            <option value="lead_opp">Lead com oportunidade aberta</option>
+          </select>
+        </div>
+        <div id="pg-profile-editor" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+          <div style="padding:10px 12px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);font-family:var(--font-mono)">Edite os valores do perfil abaixo</div>
+          <div id="pg-fields" style="padding:12px;display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </main>
@@ -497,6 +552,360 @@ function tog(id){
 
 renderAttrs();
 renderEvents();
+
+/* ══════════════════════════════════════
+   PLAYGROUND
+══════════════════════════════════════ */
+const SNIPPETS = [
+  {
+    label: "Personalização de nome (com fallback)",
+    code: `{% if first_name != blank %}{{ first_name }}{% elsif custom_attribute.lp_educon_name != blank %}{{ custom_attribute.lp_educon_name }}{% else %}médico{% endif %}`
+  },
+  {
+    label: "Loop — cursos ativos",
+    code: `{% for e in custom_attribute.cdp_student_unity_course %}• {{ e.course }} — {{ e.unit }}\n{% endfor %}`
+  },
+  {
+    label: "Loop — cursos concluídos",
+    code: `{% for e in custom_attribute.cdp_alumni_unity_course %}• {{ e.course }} — {{ e.unit }}\n{% endfor %}`
+  },
+  {
+    label: "Especialidade médica (condicional)",
+    code: `{% if custom_attribute.cdp_cfm_specialty != blank %}Especialidade: {{ custom_attribute.cdp_cfm_specialty }}{% else %}Médico sem especialidade registrada{% endif %}`
+  },
+  {
+    label: "WhatsApp — abort se sem telefone",
+    code: `{% if custom_attribute.lp_educon_phone != blank %}{{ custom_attribute.lp_educon_phone }}{% else %}{% abort_message('Sem telefone disponivel') %}{% endif %}`
+  },
+  {
+    label: "Oportunidade aberta (ramificação)",
+    code: `{% if custom_attribute.salesforce_has_open_opportunities == true %}Você tem uma proposta em andamento!{% else %}Que tal conhecer nossas opções?{% endif %}`
+  },
+  {
+    label: "CRM — UF de atuação primária",
+    code: `{% for crm in custom_attribute.cdp_crm_enrichment %}{% if crm.subscription_type == "Principal" %}{{ crm.sg_uf_crm }}{% endif %}{% endfor %}`
+  },
+  {
+    label: "Última oportunidade — fase atual",
+    code: `{% assign opp = custom_attribute.salesforce_opportunity_array[0] %}Fase: {{ opp.opportunity_stage }} — Curso: {{ opp.course }}`
+  }
+];
+
+const PROFILES = {
+  lead_puro: {
+    label: "Lead puro",
+    attrs: {
+      first_name: "",
+      lp_educon_name: "Ana Souza",
+      lp_educon_phone: "+5511988887777",
+      lp_educon_occupation: "Médica",
+      cdp_alumni: false,
+      cdp_customer_afya_pos_grad: false,
+      salesforce_has_open_opportunities: false,
+      salesforce_has_won_opportunities_last_12_months: false,
+      cdp_cfm_specialty: "",
+      cdp_crm_enrichment: [],
+      cdp_student_unity_course: [],
+      cdp_alumni_unity_course: [],
+      salesforce_opportunity_array: []
+    }
+  },
+  aluno_1: {
+    label: "Aluno ativo — 1 curso",
+    attrs: {
+      first_name: "Carlos",
+      lp_educon_name: "Carlos Mendes",
+      lp_educon_phone: "+5521977776666",
+      cdp_alumni: false,
+      cdp_customer_afya_pos_grad: true,
+      salesforce_has_open_opportunities: false,
+      cdp_cfm_specialty: "Clínica Médica",
+      cdp_crm_enrichment: [{subscription_type:"Principal",sg_uf_crm:"RJ",specialty:["Clínica Médica"]}],
+      cdp_student_unity_course: [{course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"}],
+      cdp_alumni_unity_course: [],
+      salesforce_opportunity_array: []
+    }
+  },
+  aluno_multi: {
+    label: "Aluno ativo — múltiplos cursos",
+    attrs: {
+      first_name: "Beatriz",
+      lp_educon_name: "Beatriz Lima",
+      lp_educon_phone: "+5511966665555",
+      cdp_alumni: false,
+      cdp_customer_afya_pos_grad: true,
+      salesforce_has_open_opportunities: false,
+      cdp_cfm_specialty: "Pediatria",
+      cdp_crm_enrichment: [{subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Pediatria"]}],
+      cdp_student_unity_course: [
+        {course:"CURSO EXTENSIVO TEGO 2026",unit:"PAPERS"},
+        {course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"},
+        {course:"PÓS-GRADUAÇÃO LATO SENSU EM PEDIATRIA",unit:"AFYA EDUCAÇÃO MÉDICA SÃO PAULO"}
+      ],
+      cdp_alumni_unity_course: [],
+      salesforce_opportunity_array: []
+    }
+  },
+  exaluno_1: {
+    label: "Ex-aluno — 1 curso",
+    attrs: {
+      first_name: "Pedro",
+      lp_educon_name: "Pedro Alves",
+      lp_educon_phone: "+5531955554444",
+      cdp_alumni: true,
+      cdp_customer_afya_pos_grad: false,
+      salesforce_has_open_opportunities: false,
+      cdp_cfm_specialty: "Cardiologia",
+      cdp_crm_enrichment: [{subscription_type:"Principal",sg_uf_crm:"MG",specialty:["Cardiologia"]}],
+      cdp_student_unity_course: [],
+      cdp_alumni_unity_course: [{course:"PÓS-GRADUAÇÃO LATO SENSU EM CARDIOLOGIA",unit:"AFYA EDUCAÇÃO MÉDICA BELO HORIZONTE"}],
+      salesforce_opportunity_array: []
+    }
+  },
+  exaluno_multi: {
+    label: "Ex-aluno — múltiplos cursos",
+    attrs: {
+      first_name: "Mariana",
+      lp_educon_name: "Mariana Costa",
+      lp_educon_phone: "+5541944443333",
+      cdp_alumni: true,
+      cdp_customer_afya_pos_grad: false,
+      salesforce_has_open_opportunities: false,
+      cdp_cfm_specialty: "Endocrinologia",
+      cdp_crm_enrichment: [{subscription_type:"Principal",sg_uf_crm:"PR",specialty:["Endocrinologia"]}],
+      cdp_student_unity_course: [],
+      cdp_alumni_unity_course: [
+        {course:"PÓS-GRADUAÇÃO LATO SENSU EM ENDOCRINOLOGIA",unit:"AFYA EDUCAÇÃO MÉDICA SÃO PAULO"},
+        {course:"CURSO DE QUESTÕES TEN 2026",unit:"PAPERS"}
+      ],
+      salesforce_opportunity_array: []
+    }
+  },
+  medico_crm: {
+    label: "Médico com CRM em múltiplos estados",
+    attrs: {
+      first_name: "Roberto",
+      lp_educon_name: "Roberto Faria",
+      lp_educon_phone: "+5511933332222",
+      cdp_alumni: false,
+      cdp_customer_afya_pos_grad: false,
+      salesforce_has_open_opportunities: false,
+      cdp_cfm_specialty: "Dermatologia",
+      cdp_crm_enrichment: [
+        {subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Dermatologia","Medicina Estética"]},
+        {subscription_type:"Secundária",sg_uf_crm:"RJ",specialty:["Dermatologia"]}
+      ],
+      cdp_student_unity_course: [],
+      cdp_alumni_unity_course: [],
+      salesforce_opportunity_array: []
+    }
+  },
+  lead_opp: {
+    label: "Lead com oportunidade aberta",
+    attrs: {
+      first_name: "",
+      lp_educon_name: "Fernanda Torres",
+      lp_educon_phone: "+5511922221111",
+      cdp_alumni: false,
+      cdp_customer_afya_pos_grad: false,
+      salesforce_has_open_opportunities: true,
+      salesforce_has_won_opportunities_last_12_months: false,
+      salesforce_last_opportunity_stage: "Proposta Enviada",
+      cdp_cfm_specialty: "Neurologia",
+      cdp_crm_enrichment: [],
+      cdp_student_unity_course: [],
+      cdp_alumni_unity_course: [],
+      salesforce_opportunity_array: [{opportunity_stage:"Proposta Enviada",course:"Pós-Graduação em Neurologia",created_date:"2026-03-01"}]
+    }
+  }
+};
+
+let pgProfile = {};
+
+function initPlayground() {
+  // Render snippets
+  const sl = document.getElementById("snippets-list");
+  sl.innerHTML = SNIPPETS.map((s,i) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer" onclick="useSnippet(${i})">
+      <span style="font-size:12px;color:var(--text);flex:1">${s.label}</span>
+      <span style="font-size:11px;font-family:var(--font-mono);color:var(--afya-magenta);white-space:nowrap">usar ↗</span>
+    </div>
+  `).join("");
+}
+
+function useSnippet(i) {
+  document.getElementById("pg-editor").value = SNIPPETS[i].code.replace(/\\n/g,"\n");
+  runLiquid();
+}
+
+function loadProfile() {
+  const key = document.getElementById("pg-profile").value;
+  if (!key) return;
+  pgProfile = JSON.parse(JSON.stringify(PROFILES[key].attrs));
+  renderProfileFields();
+}
+
+function renderProfileFields() {
+  const container = document.getElementById("pg-fields");
+  const entries = Object.entries(pgProfile);
+  container.innerHTML = entries.map(([k,v]) => {
+    const isArray = Array.isArray(v);
+    const isBool = typeof v === "boolean";
+    const displayVal = isArray ? JSON.stringify(v, null, 2) : String(v);
+    const inputH = isArray ? Math.max(60, displayVal.split("\n").length * 18 + 16) : 32;
+    return `<div>
+      <div style="font-size:11px;font-family:var(--font-mono);color:var(--muted);margin-bottom:3px">${k}</div>
+      ${isBool
+        ? `<select onchange="updateField('${k}', this.value === 'true')" style="font-size:12px;width:100%;padding:4px 8px">
+             <option value="true" ${v?"selected":""}>true</option>
+             <option value="false" ${!v?"selected":""}>false</option>
+           </select>`
+        : `<textarea rows="${isArray?Math.max(3,displayVal.split("\n").length):1}" onchange="updateField('${k}', ${isArray?"JSON.parse(this.value)":"this.value"})" style="width:100%;padding:6px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-mono);font-size:12px;line-height:1.5;resize:vertical;outline:none;color:var(--text)">${displayVal}</textarea>`
+      }
+    </div>`;
+  }).join("");
+}
+
+function updateField(key, value) {
+  pgProfile[key] = value;
+}
+
+function runLiquid() {
+  const template = document.getElementById("pg-editor").value;
+  const output = document.getElementById("pg-output");
+  if (!template.trim()) {
+    output.innerHTML = '<span style="color:var(--hint);font-size:13px">Digite um template acima.</span>';
+    return;
+  }
+  try {
+    const result = evalLiquid(template, pgProfile);
+    output.style.color = "var(--text)";
+    output.textContent = result || "(output vazio)";
+  } catch(e) {
+    output.style.color = "var(--red, #c0392b)";
+    output.textContent = "Erro: " + e.message;
+  }
+}
+
+function evalLiquid(template, attrs) {
+  let out = template;
+
+  // Build context
+  const ctx = {
+    first_name: attrs.first_name || "",
+    ...Object.fromEntries(Object.entries(attrs).map(([k,v]) => [`custom_attribute.${k}`, v]))
+  };
+
+  // {% assign var = expr %}
+  out = out.replace(/\{%\s*assign\s+(\w+)\s*=\s*([^%]+)%\}/g, (_, varName, expr) => {
+    try {
+      const val = resolveExpr(expr.trim(), ctx);
+      ctx[varName] = val;
+    } catch(e) {}
+    return "";
+  });
+
+  // {% for item in array %}...{% endfor %}
+  out = out.replace(/\{%\s*for\s+(\w+)\s+in\s+([\w.\[\]]+)\s*%\}([\s\S]*?)\{%\s*endfor\s*%\}/g, (_, item, arrName, body) => {
+    const arr = resolveVar(arrName, ctx);
+    if (!Array.isArray(arr) || arr.length === 0) return "";
+    return arr.map(el => {
+      const innerCtx = {...ctx, [item]: el};
+      return evalLiquidInner(body, innerCtx);
+    }).join("");
+  });
+
+  // {% if ... %}...{% elsif %}...{% else %}...{% endif %}
+  out = evalConditionals(out, ctx);
+
+  // {{ variable }}
+  out = out.replace(/\{\{\s*([^}]+)\s*\}\}/g, (_, expr) => {
+    const val = resolveExpr(expr.trim(), ctx);
+    return val !== null && val !== undefined ? String(val) : "";
+  });
+
+  // {% abort_message(...) %}
+  out = out.replace(/\{%\s*abort_message\([^)]*\)\s*%\}/g, "[MENSAGEM ABORTADA]");
+
+  return out.replace(/\\n/g, "\n").trim();
+}
+
+function evalLiquidInner(template, ctx) {
+  let out = template;
+  out = evalConditionals(out, ctx);
+  out = out.replace(/\{\{\s*([^}]+)\s*\}\}/g, (_, expr) => {
+    const parts = expr.trim().split(".");
+    let val = ctx[parts[0]];
+    for (let i = 1; i < parts.length; i++) val = val?.[parts[i]];
+    return val !== null && val !== undefined ? String(val) : "";
+  });
+  return out;
+}
+
+function evalConditionals(template, ctx) {
+  return template.replace(/\{%\s*if\s+([^%]+?)\s*%\}([\s\S]*?)\{%\s*endif\s*%\}/g, (_, cond, body) => {
+    // Split on elsif/else
+    const parts = body.split(/\{%\s*elsif\s+[^%]+?\s*%\}|\{%\s*else\s*%\}/);
+    const condMatches = body.match(/\{%\s*elsif\s+([^%]+?)\s*%\}/g) || [];
+    
+    if (evalCond(cond.trim(), ctx)) return evalLiquidInner(parts[0], ctx);
+    for (let i = 0; i < condMatches.length; i++) {
+      const elCond = condMatches[i].replace(/\{%\s*elsif\s+|\s*%\}/g, "");
+      if (evalCond(elCond.trim(), ctx)) return evalLiquidInner(parts[i+1] || "", ctx);
+    }
+    const elsePart = parts[parts.length - 1];
+    if (parts.length > condMatches.length + 1) return evalLiquidInner(elsePart, ctx);
+    return "";
+  });
+}
+
+function evalCond(cond, ctx) {
+  // != blank
+  if (cond.match(/!=\s*blank/)) {
+    const v = resolveVar(cond.replace(/\s*!=\s*blank/, "").trim(), ctx);
+    return v !== null && v !== undefined && v !== "" && !(Array.isArray(v) && v.length === 0);
+  }
+  // == blank
+  if (cond.match(/==\s*blank/)) {
+    const v = resolveVar(cond.replace(/\s*==\s*blank/, "").trim(), ctx);
+    return v === null || v === undefined || v === "" || (Array.isArray(v) && v.length === 0);
+  }
+  // == true / == false
+  if (cond.match(/==\s*true/)) return resolveVar(cond.replace(/\s*==\s*true/, "").trim(), ctx) === true;
+  if (cond.match(/==\s*false/)) return resolveVar(cond.replace(/\s*==\s*false/, "").trim(), ctx) === false;
+  // == "string"
+  const strMatch = cond.match(/^(.+?)\s*==\s*"([^"]*)"$/);
+  if (strMatch) return String(resolveVar(strMatch[1].trim(), ctx)) === strMatch[2];
+  // != "string"
+  const neqMatch = cond.match(/^(.+?)\s*!=\s*"([^"]*)"$/);
+  if (neqMatch) return String(resolveVar(neqMatch[1].trim(), ctx)) !== neqMatch[2];
+  // bare variable (truthy)
+  return !!resolveVar(cond, ctx);
+}
+
+function resolveExpr(expr, ctx) {
+  // array[N]
+  const idxMatch = expr.match(/^([\w.]+)\[(\d+)\]$/);
+  if (idxMatch) {
+    const arr = resolveVar(idxMatch[1], ctx);
+    return Array.isArray(arr) ? arr[parseInt(idxMatch[2])] : null;
+  }
+  return resolveVar(expr, ctx);
+}
+
+function resolveVar(name, ctx) {
+  const clean = name.trim().replace(/^\$\{|}$/g, "");
+  if (clean in ctx) return ctx[clean];
+  // dot notation — e.g. opp.opportunity_stage
+  const parts = clean.split(".");
+  let val = ctx[parts[0]];
+  for (let i = 1; i < parts.length; i++) val = val?.[parts[i]];
+  return val !== undefined ? val : null;
+}
+
+// Init snippets on load
+initPlayground();
+
 </script>
 </body>
 </html>
