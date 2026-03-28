@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Braze Reference — Afya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --surface2: #F2F0EB;
+  --border: #E4E0D8;
+  --border2: #D0CBC0;
+  --text: #1A1714;
+  --muted: #6B6560;
+  --hint: #B0AAA2;
+  --accent: #C4622D;
+  --accent-bg: #FAF0EB;
+  --green: #2D6B4A; --green-bg: #EBF5F0;
+  --amber: #8C5A00; --amber-bg: #FFF5E0;
+  --red: #8C2D2D;   --red-bg: #FAEAEA;
+  --blue: #1A4A7A;  --blue-bg: #EBF0FA;
+  --purple: #4A2D8C; --purple-bg: #F0EBFA;
+  --teal: #1A6B6B;  --teal-bg: #EBF5F5;
+  --coral: #7A3020; --coral-bg: #FAEEEA;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --r: 8px; --r-sm: 5px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.6; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.card { animation: fadeUp .25s ease both; }
+.card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.09s}
+.card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.15s}.card:nth-child(6){animation-delay:.18s}
+.card:nth-child(7){animation-delay:.21s}.card:nth-child(8){animation-delay:.24s}
+
+/* ── Header ── */
+header { background:var(--surface); border-bottom:1px solid var(--border); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+.logo { display:flex; align-items:baseline; gap:10px; }
+.logo-name { font-family:var(--font-display); font-size:20px; font-weight:300; letter-spacing:-0.4px; }
+.logo-sep { color:var(--border2); }
+.logo-sub { font-size:12px; color:var(--muted); }
+.header-meta { font-family:var(--font-mono); font-size:11px; color:var(--hint); display:flex; align-items:center; gap:6px; }
+.meta-dot { width:6px; height:6px; border-radius:50%; background:var(--green); }
+
+/* ── Tabs ── */
+.tabs-bar { background:var(--surface); border-bottom:1px solid var(--border); padding:0 2rem; display:flex; gap:0; }
+.tab { padding:12px 20px; font-size:13px; font-weight:500; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; background:transparent; border-top:none; border-left:none; border-right:none; font-family:var(--font-body); display:flex; align-items:center; gap:7px; }
+.tab:hover { color:var(--text); }
+.tab.on { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-count { font-family:var(--font-mono); font-size:11px; background:var(--surface2); color:var(--muted); padding:1px 6px; border-radius:99px; border:1px solid var(--border); }
+.tab.on .tab-count { background:var(--accent-bg); color:var(--accent); border-color:var(--accent); }
+
+/* ── Main ── */
+main { max-width:900px; margin:0 auto; padding:1.5rem 2rem 4rem; }
+.tab-panel { display:none; }
+.tab-panel.on { display:block; }
+
+/* ── Toolbar ── */
+.toolbar { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+.search-wrap { flex:1; min-width:220px; position:relative; }
+.search-wrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
+.search-wrap input { width:100%; padding:9px 12px 9px 34px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-sm); color:var(--text); font-family:var(--font-body); font-size:14px; outline:none; transition:border-color .15s; }
+.search-wrap input:focus { border-color:var(--accent); }
+.search-wrap input::placeholder { color:var(--hint); }
+select { padding:9px 28px 9px 12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-sm); color:var(--text); font-family:var(--font-body); font-size:13px; outline:none; cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23B0AAA2'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; transition:border-color .15s; }
+select:focus { border-color:var(--accent); }
+
+/* ── Chips ── */
+.chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.chip { padding:5px 13px; border-radius:99px; border:1px solid var(--border); color:var(--muted); font-size:12px; font-family:var(--font-mono); cursor:pointer; background:var(--surface); transition:all .15s; white-space:nowrap; }
+.chip:hover { border-color:var(--accent); color:var(--accent); }
+.chip.on { background:var(--accent-bg); border-color:var(--accent); color:var(--accent); }
+
+/* ── Stats row ── */
+.stats-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
+.results-count { font-size:13px; color:var(--muted); font-family:var(--font-mono); }
+.results-count strong { color:var(--text); font-weight:500; }
+.legend { display:flex; gap:12px; flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--muted); font-family:var(--font-mono); }
+.legend-dot { width:8px; height:8px; border-radius:50%; }
+
+/* ── Cards ── */
+.cards { display:grid; gap:6px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+.card:hover { border-color:var(--border2); }
+.card.open { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-bg); }
+
+.card-head { display:flex; align-items:flex-start; gap:12px; }
+.card-left { flex:1; min-width:0; }
+.attr-name { font-family:var(--font-mono); font-size:13px; font-weight:500; color:var(--text); word-break:break-all; line-height:1.4; margin-bottom:4px; }
+.card-desc { font-size:13px; color:var(--muted); line-height:1.55; }
+.card-right { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0; max-width:52%; }
+
+/* ── Badges ── */
+.b { font-size:11px; padding:2px 8px; border-radius:99px; font-weight:500; white-space:nowrap; font-family:var(--font-mono); display:inline-block; }
+.b-boolean   { background:var(--purple-bg); color:var(--purple); }
+.b-string    { background:var(--teal-bg);   color:var(--teal); }
+.b-array     { background:var(--amber-bg);  color:var(--amber); }
+.b-bigint    { background:var(--blue-bg);   color:var(--blue); }
+.b-timestamp { background:var(--coral-bg);  color:var(--coral); }
+.b-env       { background:var(--surface2);  color:var(--muted); border:1px solid var(--border); }
+.b-cdp   { background:var(--blue-bg);   color:var(--blue); }
+.b-lp    { background:var(--purple-bg); color:var(--purple); }
+.b-sf    { background:var(--teal-bg);   color:var(--teal); }
+.b-mkt   { background:var(--accent-bg); color:var(--accent); }
+.b-ativo      { background:var(--green-bg);  color:var(--green); }
+.b-validacao  { background:var(--amber-bg);  color:var(--amber); }
+.b-depreciado { background:var(--red-bg);    color:var(--red); }
+.b-ns         { background:var(--surface2);  color:var(--hint); border:1px solid var(--border); }
+.b-seg  { background:var(--blue-bg);   color:var(--blue); }
+.b-salesforce { background:var(--teal-bg);  color:var(--teal); }
+.b-braze { background:var(--accent-bg); color:var(--accent); }
+.b-form  { background:var(--purple-bg); color:var(--purple); }
+
+/* ── Detail ── */
+.detail { border-top:1px solid var(--border); margin-top:12px; padding-top:12px; display:none; }
+.card.open .detail { display:block; }
+.detail-grid { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--border); border-radius:var(--r-sm); overflow:hidden; margin-bottom:10px; }
+.d-cell { padding:8px 12px; border-bottom:1px solid var(--border); font-size:13px; }
+.d-cell:nth-child(odd)  { border-right:1px solid var(--border); background:var(--surface2); }
+.d-cell:nth-child(even) { background:var(--surface); }
+.d-cell:nth-last-child(-n+2) { border-bottom:none; }
+.d-cell.full { grid-column:1/-1; }
+.d-cell.full:nth-child(odd) { border-right:none; }
+.d-label { font-size:11px; color:var(--hint); font-family:var(--font-mono); margin-bottom:3px; text-transform:uppercase; letter-spacing:0.04em; }
+.d-val { color:var(--text); font-family:var(--font-mono); font-size:12px; word-break:break-all; line-height:1.6; }
+.d-val.ex { background:var(--bg); color:var(--green); border:1px solid var(--border); padding:1px 6px; border-radius:4px; display:inline-block; }
+.usage-tags { display:flex; flex-wrap:wrap; gap:4px; }
+.utag { font-size:11px; padding:2px 7px; border-radius:4px; background:var(--surface2); color:var(--muted); border:1px solid var(--border); font-family:var(--font-mono); }
+.notion-link { display:inline-flex; align-items:center; gap:5px; font-size:12px; color:var(--accent); text-decoration:none; font-family:var(--font-mono); opacity:.7; transition:opacity .15s; }
+.notion-link:hover { opacity:1; }
+
+/* ── Empty ── */
+.empty { text-align:center; padding:3rem 1rem; color:var(--muted); }
+.empty-title { font-family:var(--font-display); font-size:18px; font-weight:300; color:var(--text); margin-bottom:6px; }
+
+/* ── Responsive ── */
+@media (max-width:600px) {
+  header, .tabs-bar { padding:0 1rem; }
+  main { padding:1rem 1rem 3rem; }
+  .card-right { max-width:100%; margin-top:6px; }
+  .card-head { flex-wrap:wrap; }
+  .detail-grid { grid-template-columns:1fr; }
+  .d-cell:nth-child(odd) { border-right:none; }
+  .d-cell:nth-last-child(-n+2) { border-bottom:1px solid var(--border); }
+  .d-cell:last-child { border-bottom:none; }
+  .d-cell.full { grid-column:1; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-name">Braze Reference</span>
+    <span class="logo-sep">/</span>
+    <span class="logo-sub">Afya · Referência de marketing</span>
+  </div>
+  <div class="header-meta">
+    <span class="meta-dot"></span>
+    <span>Mar 2026</span>
+  </div>
+</header>
+
+<div class="tabs-bar">
+  <button class="tab on" onclick="switchTab('attrs', this)">
+    Atributos <span class="tab-count" id="tc-attrs">22</span>
+  </button>
+  <button class="tab" onclick="switchTab('events', this)">
+    Eventos <span class="tab-count" id="tc-events">6</span>
+  </button>
+</div>
+
+<main>
+
+  <!-- ══ ATRIBUTOS ══ -->
+  <div class="tab-panel on" id="panel-attrs">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6.5" cy="6.5" r="4.5"/><path d="m11 11 3 3"/></svg>
+        <input type="text" id="a-search" placeholder="Buscar por nome ou descrição..." oninput="renderAttrs()" />
+      </div>
+      <select id="a-type" onchange="renderAttrs()">
+        <option value="">Todos os tipos</option>
+        <option value="boolean">boolean</option>
+        <option value="string">string</option>
+        <option value="array">array</option>
+        <option value="bigint">bigint</option>
+        <option value="timestamp">timestamp</option>
+      </select>
+      <select id="a-status" onchange="renderAttrs()">
+        <option value="">Todos os status</option>
+        <option value="ativo">ativo</option>
+        <option value="em validação">em validação</option>
+        <option value="depreciado">depreciado</option>
+      </select>
+    </div>
+    <div class="chips" id="a-chips">
+      <button class="chip on" data-p="" onclick="setAP(this)">Todos</button>
+      <button class="chip" data-p="cdp_" onclick="setAP(this)">cdp_ · Segment</button>
+      <button class="chip" data-p="lp_" onclick="setAP(this)">lp_educon_ · Formulários</button>
+      <button class="chip" data-p="sf_" onclick="setAP(this)">salesforce_ · CRM</button>
+      <button class="chip" data-p="mkt" onclick="setAP(this)">sem prefixo · Marketing</button>
+    </div>
+    <div class="stats-row">
+      <div class="results-count" id="a-count"></div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#4A2D8C"></span>boolean</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#1A6B6B"></span>string</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#8C5A00"></span>array</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#1A4A7A"></span>bigint</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#7A3020"></span>timestamp</div>
+      </div>
+    </div>
+    <div class="cards" id="a-grid"></div>
+  </div>
+
+  <!-- ══ EVENTOS ══ -->
+  <div class="tab-panel" id="panel-events">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6.5" cy="6.5" r="4.5"/><path d="m11 11 3 3"/></svg>
+        <input type="text" id="e-search" placeholder="Buscar evento..." oninput="renderEvents()" />
+      </div>
+      <select id="e-origin" onchange="renderEvents()">
+        <option value="">Todas as origens</option>
+        <option value="LP/Formulário">LP / Formulário</option>
+        <option value="Salesforce">Salesforce</option>
+        <option value="Segment/Databricks">Segment / Databricks</option>
+        <option value="Braze">Braze</option>
+      </select>
+      <select id="e-status" onchange="renderEvents()">
+        <option value="">Todos os status</option>
+        <option value="ativo">ativo</option>
+        <option value="em validação">em validação</option>
+        <option value="depreciado">depreciado</option>
+      </select>
+    </div>
+    <div class="stats-row">
+      <div class="results-count" id="e-count"></div>
+    </div>
+    <div class="cards" id="e-grid"></div>
+  </div>
+
+</main>
+
+<script>
+/* ══════════════════════════════════════
+   ATRIBUTOS DATA
+══════════════════════════════════════ */
+const ATTRS = [
+  {name:"vuc_id",type:"bigint",env:["Sandbox"],freq:"real-time",status:null,desc:"Identificador único da pessoa na Afya.",ex:"1038291",usage:["segmentação"],url:"https://www.notion.so/32d66da407c080d6adb0ea9180ae3ba6"},
+  {name:"cdp_customer_afya_pos_grad",type:"boolean",env:["Sandbox"],freq:"daily",status:null,desc:"Indica se o usuário está matriculado em algum curso de Pós Graduação.",ex:"true",usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/32d66da407c080ca9755c14feaddffb5"},
+  {name:"cdp_alumni",type:"boolean",env:["Sandbox","Production"],freq:"weekly",status:null,desc:"Indica se o usuário é ex-aluno de algum curso de Pós Graduação.",ex:"false",usage:["segmentação"],url:"https://www.notion.so/32d66da407c080ef8ee5e9302ffa498c"},
+  {name:"cdp_student_unity_course",type:"array",env:["Sandbox"],freq:"on-demand",status:null,desc:"Todos os cursos e unidades nos quais o usuário está matriculado atualmente. Array de objetos com course e unit.",ex:'[{course:"EXTENSIVO R1",unit:"MEDCEL"}]',usage:["segmentação","personalização"],url:"https://www.notion.so/32d66da407c080a1aa71d213f1656638"},
+  {name:"cdp_alumni_unity_course",type:"array",env:["Sandbox","Production"],freq:null,status:null,desc:"Todos os cursos e unidades nos quais o ex-aluno já esteve matriculado. Array de objetos com course e unit.",ex:'[{course:"PÓS ENDOCRINOLOGIA",unit:"AFYA SP"}]',usage:["segmentação","personalização"],url:"https://www.notion.so/32d66da407c0803f8705c5180f7a521c"},
+  {name:"cdp_cfm_uf",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Estado(s) onde o médico tem registro no CFM.",ex:'"SP"',usage:["segmentação"],url:"https://www.notion.so/32d66da407c080029121ca2b090dbd0e"},
+  {name:"cdp_cfm_specialty",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Especialidade(s) do médico registrada no CFM.",ex:'"Cardiologia"',usage:["segmentação","personalização"],url:"https://www.notion.so/32d66da407c0805798e3d0c22a8630de"},
+  {name:"cdp_graduation_date",type:"timestamp",env:["Sandbox"],freq:null,status:null,desc:"Data de último update de contratos com status 'Concluído' ou 'Concluinte Pendente'.",ex:'"2024-07-15T00:00:00Z"',usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/32d66da407c0807db8cedbc02247142b"},
+  {name:"cdp_enrollment_date",type:"timestamp",env:[],freq:null,status:null,desc:"Data mais recente de atualização entre todos os contratos do usuário.",ex:'"2025-01-20T00:00:00Z"',usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/32d66da407c0800e99ade5da4b3c2122"},
+  {name:"cdp_crm_enrichment",type:"array",env:["Sandbox"],freq:null,status:null,desc:"Array de objetos com dados de enriquecimento do CRM estadual. Cada item é um registro de CRM com especialidades, UF e status.",ex:'[{sg_uf_crm:"SP",specialty:["Cardiologia"]}]',usage:["segmentação","personalização"],url:"https://www.notion.so/33166da407c081e6830bfb1efb1108be"},
+  {name:"lp_educon_name",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Nome completo informado na LP. Dados não validados — usar como fallback antes da resolução de identidade.",ex:'"João Silva"',usage:["personalização"],url:"https://www.notion.so/33166da407c08125b72ef34becddc518"},
+  {name:"lp_educon_phone",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Telefone informado na LP. Fonte principal para disparo de WhatsApp via Blip.",ex:'"+5511999998888"',usage:["trigger de canvas"],url:"https://www.notion.so/33166da407c0813da1efd87cab6cde72"},
+  {name:"lp_educon_occupation",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Ocupação informada pelo usuário no formulário da LP.",ex:'"Médico"',usage:["segmentação"],url:"https://www.notion.so/33166da407c0815cb172d5bc17864f0d"},
+  {name:"educon_last_product_interest",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Produto de interesse capturado no último form_submitted. Salvo via Update User no Canvas de nurture.",ex:'"dermatologia"',usage:["segmentação","personalização"],url:"https://www.notion.so/33166da407c081bda036d532135c2d97"},
+  {name:"salesforce_has_open_opportunities",type:"boolean",env:["Sandbox"],freq:null,status:null,desc:"Indica se o usuário possui oportunidades em aberto no Salesforce.",ex:"true",usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/33166da407c081bf939ce598f2fd2f2b"},
+  {name:"salesforce_has_won_opportunities_last_12_months",type:"boolean",env:["Sandbox"],freq:null,status:null,desc:"Indica se o usuário teve oportunidades ganhas nos últimos 12 meses no Salesforce.",ex:"false",usage:["segmentação"],url:"https://www.notion.so/33166da407c0813d9031ed1f64c9e96d"},
+  {name:"salesforce_last_opportunity_stage",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Fase atual da última oportunidade do usuário no Salesforce.",ex:'"Proposta Enviada"',usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/33166da407c0813fa7e6e5c261f29d36"},
+  {name:"salesforce_last_opportunity_courses",type:"string",env:["Sandbox"],freq:null,status:null,desc:"Cursos associados à última oportunidade. ⚠ Tipo a confirmar com engenharia.",ex:'"Medicina"',usage:["segmentação","personalização"],url:"https://www.notion.so/33166da407c081ed96baf07fdfa34c3f"},
+  {name:"salesforce_last_opportunity_id",type:"string",env:["Sandbox"],freq:null,status:null,desc:"ID da última oportunidade do usuário no Salesforce.",ex:'"006Hs00000XYZ"',usage:["segmentação"],url:"https://www.notion.so/33166da407c081af8b06d9b57bdac125"},
+  {name:"salesforce_last_opportunity_created_date",type:"timestamp",env:["Sandbox"],freq:null,status:null,desc:"Data de criação da última oportunidade do usuário no Salesforce.",ex:'"2025-03-01T10:00:00Z"',usage:["segmentação","trigger de canvas"],url:"https://www.notion.so/33166da407c0813bbd3ce183ecd396b0"},
+  {name:"salesforce_last_opportunity_update_date",type:"timestamp",env:["Sandbox"],freq:null,status:null,desc:"Data da última atualização da oportunidade no Salesforce.",ex:'"2025-03-15T14:30:00Z"',usage:["segmentação"],url:"https://www.notion.so/33166da407c081d89ce7f22d0c1dca5b"},
+  {name:"salesforce_opportunity_array",type:"array",env:["Sandbox"],freq:null,status:null,desc:"Array aninhado com histórico de oportunidades. Acesso via Liquid: {% assign opp = custom_attribute.salesforce_opportunity_array[0] %}",ex:'[{opportunity_stage:"Ganho",course:"Medicina"}]',usage:["segmentação","personalização"],url:"https://www.notion.so/33166da407c08102b511dfd40c32de47"}
+];
+
+/* ══════════════════════════════════════
+   EVENTOS DATA
+══════════════════════════════════════ */
+const EVENTS = [
+  {name:"form_submitted", origin:"LP/Formulário", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando o usuário converte em uma LP. Typeform dispara duas vezes: primeiro ao preencher dados de identificação, depois ao finalizar o formulário completo.",
+   trigger:"Conversão em landing page (Webflow, Unbounce, Typeform)",
+   props:"application_name, application_feature, insider_product_name, insider_campaign_name, lp_educon_name, lp_educon_phone, landing_page_url, salesforce_unit, interest, web_browser_state",
+   url:"https://www.notion.so/33166da407c081d99793d1fbc496fe88"},
+  {name:"external_user_id_updated", origin:"Segment/Databricks", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando a VUC resolve a identidade do usuário. Ocorre em poucos minutos após form_submitted. Sem propriedades — sinaliza que o perfil está consolidado.",
+   trigger:"Resolução de identidade pela VUC após form_submitted",
+   props:"Sem propriedades — usar como gatilho de Action Path no Canvas",
+   url:"https://www.notion.so/33166da407c08113bd38fe366ab6b433"},
+  {name:"opportunity_created", origin:"Salesforce", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando uma nova oportunidade é criada no Salesforce. Compartilha schema com os demais eventos de pipeline.",
+   trigger:"Criação de oportunidade no Salesforce",
+   props:"opportunity_id, opportunity_stage, has_open_opportunities, has_won_opportunities_last_12_months, courses, opportunity_array, application_name",
+   url:"https://www.notion.so/33166da407c0813e85a7de8deafae997"},
+  {name:"opportunity_updated", origin:"Salesforce", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando uma oportunidade existente é atualizada no Salesforce. Mesmo schema dos demais eventos de pipeline.",
+   trigger:"Atualização de oportunidade no Salesforce",
+   props:"opportunity_id, opportunity_stage, has_open_opportunities, loss_reason, loss_sub_reason, opportunity_array",
+   url:"https://www.notion.so/33166da407c081a5a90bdd515c472a85"},
+  {name:"opportunity_won", origin:"Salesforce", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando uma oportunidade é marcada como ganha no Salesforce.",
+   trigger:"Fechamento de oportunidade como ganha no Salesforce",
+   props:"opportunity_id, opportunity_stage, has_won_opportunities_last_12_months, courses, opportunity_array",
+   url:"https://www.notion.so/33166da407c081019997fe2ba10e0a1f"},
+  {name:"opportunity_lost", origin:"Salesforce", env:["Sandbox"], bu:["Educon"], status:"ativo",
+   desc:"Disparado quando uma oportunidade é marcada como perdida no Salesforce.",
+   trigger:"Fechamento de oportunidade como perdida no Salesforce",
+   props:"opportunity_id, opportunity_stage, loss_reason, loss_sub_reason, has_open_opportunities, opportunity_array",
+   url:"https://www.notion.so/33166da407c08194832feaac06712e8c"}
+];
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function getP(n) { return n.startsWith("cdp_")?"cdp_":n.startsWith("lp_")?"lp_":n.startsWith("salesforce_")?"sf_":"mkt" }
+function pClass(p) { return {cdp_:"b-cdp",lp_:"b-lp",sf_:"b-sf",mkt:"b-mkt"}[p] }
+function pLabel(p) { return {cdp_:"cdp_",lp_:"lp_educon_",sf_:"salesforce_",mkt:"sem prefixo"}[p] }
+function sBadge(s) { if(!s)return["b-ns","—"]; if(s==="ativo")return["b-ativo","ativo"]; if(s.includes("valid"))return["b-validacao","em validação"]; if(s==="depreciado")return["b-depreciado","depreciado"]; return["b-ns",s] }
+function originClass(o) { if(o==="Salesforce")return"b-salesforce"; if(o==="Segment/Databricks")return"b-seg"; if(o==="Braze")return"b-braze"; return"b-form" }
+function originLabel(o) { if(o==="Segment/Databricks")return"Segment"; return o }
+const SVG_LINK = `<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9M10 2h4v4M14 2 8 8"/></svg>`;
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
+function switchTab(id, el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("on"));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("on"));
+  el.classList.add("on");
+  document.getElementById("panel-" + id).classList.add("on");
+}
+
+/* ══════════════════════════════════════
+   ATRIBUTOS RENDER
+══════════════════════════════════════ */
+let activeAP = "";
+function setAP(el) { document.querySelectorAll("#a-chips .chip").forEach(c=>c.classList.remove("on")); el.classList.add("on"); activeAP=el.dataset.p; renderAttrs(); }
+
+function renderAttrs() {
+  const q = document.getElementById("a-search").value.toLowerCase();
+  const tf = document.getElementById("a-type").value;
+  const sf = document.getElementById("a-status").value;
+  const filtered = ATTRS.filter(a => {
+    const p = getP(a.name);
+    if (activeAP && p !== activeAP) return false;
+    if (q && !a.name.toLowerCase().includes(q) && !a.desc.toLowerCase().includes(q)) return false;
+    if (tf && a.type !== tf) return false;
+    if (sf && a.status !== sf) return false;
+    return true;
+  });
+  document.getElementById("a-count").innerHTML = `<strong>${filtered.length}</strong> de ${ATTRS.length} atributos`;
+  document.getElementById("tc-attrs").textContent = filtered.length;
+  const grid = document.getElementById("a-grid");
+  if (!filtered.length) { grid.innerHTML = `<div class="empty"><div class="empty-title">Nenhum resultado</div>Tente ajustar os filtros.</div>`; return; }
+  grid.innerHTML = filtered.map((a, i) => {
+    const p = getP(a.name);
+    const [sc, sl] = sBadge(a.status);
+    const envB = (a.env||[]).map(e=>`<span class="b b-env">${e}</span>`).join("");
+    const uTags = (a.usage||[]).map(u=>`<span class="utag">${u}</span>`).join("");
+    return `<div class="card" id="a${i}" onclick="tog('a${i}')">
+      <div class="card-head">
+        <div class="card-left">
+          <div class="attr-name">${a.name}</div>
+          <div class="card-desc">${a.desc}</div>
+        </div>
+        <div class="card-right">
+          <span class="b ${sc}">${sl}</span>
+          ${a.type?`<span class="b b-${a.type}">${a.type}</span>`:""}
+          <span class="b ${pClass(p)}">${pLabel(p)}</span>
+          ${envB}
+        </div>
+      </div>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="d-cell"><div class="d-label">Exemplo de valor</div><div class="d-val"><span class="ex">${a.ex}</span></div></div>
+          <div class="d-cell"><div class="d-label">Como usar no Braze</div><div class="d-val"><div class="usage-tags">${uTags||"—"}</div></div></div>
+          ${a.freq?`<div class="d-cell"><div class="d-label">Frequência</div><div class="d-val">${a.freq}</div></div>`:""}
+          ${(a.env||[]).length?`<div class="d-cell"><div class="d-label">Ambiente</div><div class="d-val">${a.env.join(", ")}</div></div>`:""}
+        </div>
+        <a class="notion-link" href="${a.url}" target="_blank">${SVG_LINK} Abrir no Notion</a>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* ══════════════════════════════════════
+   EVENTOS RENDER
+══════════════════════════════════════ */
+function renderEvents() {
+  const q = document.getElementById("e-search").value.toLowerCase();
+  const ef = document.getElementById("e-origin").value;
+  const sf = document.getElementById("e-status").value;
+  const filtered = EVENTS.filter(e => {
+    if (q && !e.name.toLowerCase().includes(q) && !e.desc.toLowerCase().includes(q)) return false;
+    if (ef && e.origin !== ef) return false;
+    if (sf && e.status !== sf) return false;
+    return true;
+  });
+  document.getElementById("e-count").innerHTML = `<strong>${filtered.length}</strong> de ${EVENTS.length} eventos`;
+  document.getElementById("tc-events").textContent = filtered.length;
+  const grid = document.getElementById("e-grid");
+  if (!filtered.length) { grid.innerHTML = `<div class="empty"><div class="empty-title">Nenhum resultado</div>Tente ajustar os filtros.</div>`; return; }
+  grid.innerHTML = filtered.map((e, i) => {
+    const [sc, sl] = sBadge(e.status);
+    const envB = (e.env||[]).map(v=>`<span class="b b-env">${v}</span>`).join("");
+    const buB = (e.bu||[]).map(b=>`<span class="b b-env">${b}</span>`).join("");
+    return `<div class="card" id="e${i}" onclick="tog('e${i}')">
+      <div class="card-head">
+        <div class="card-left">
+          <div class="attr-name">${e.name}</div>
+          <div class="card-desc">${e.desc}</div>
+        </div>
+        <div class="card-right">
+          <span class="b ${sc}">${sl}</span>
+          <span class="b ${originClass(e.origin)}">${originLabel(e.origin)}</span>
+          ${envB}${buB}
+        </div>
+      </div>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="d-cell full"><div class="d-label">Trigger</div><div class="d-val">${e.trigger}</div></div>
+          <div class="d-cell full"><div class="d-label">Propriedades principais</div><div class="d-val">${e.props}</div></div>
+        </div>
+        <a class="notion-link" href="${e.url}" target="_blank">${SVG_LINK} Abrir no Notion</a>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* ══════════════════════════════════════
+   TOGGLE
+══════════════════════════════════════ */
+function tog(id) {
+  const c = document.getElementById(id);
+  const was = c.classList.contains("open");
+  document.querySelectorAll(".card.open").forEach(x => x.classList.remove("open"));
+  if (!was) c.classList.add("open");
+}
+
+renderAttrs();
+renderEvents();
+</script>
+</body>
+</html>
