@@ -320,7 +320,7 @@ select:focus{border-color:var(--afya-navy)}
         <div class="pg-label">Preview</div>
         <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:#f9f9f9">
           <div class="email-chrome">
-            <div style="font-size:11px;color:var(--hint);margin-bottom:3px;font-family:var(--font-mono)">De: Afya Educon &lt;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="147a7b667164786d5475726d753a777b793a7666">[email&#160;protected]</a>&gt;</div>
+            <div style="font-size:11px;color:var(--hint);margin-bottom:3px;font-family:var(--font-mono)">De: Afya Educon &lt;noreply&#64;afya.com.br&gt;</div>
             <div style="font-size:12px;font-weight:500;color:var(--text)" id="email-subj-preview">Assunto aparecerá aqui</div>
           </div>
           <div class="email-header-band">
@@ -336,7 +336,7 @@ select:focus{border-color:var(--afya-navy)}
 </div>
 
 </main>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const SVG_LINK=`<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9M10 2h4v4M14 2 8 8"/></svg>`;
 
 /* ══ DATA ══ */
@@ -376,71 +376,71 @@ const EVENTS=[
 
 /* Perfis de teste — estrutura compatível com brazejs */
 const PROFILES={
-  lead_puro:{label:"Lead puro",ctx:{first_name:"",last_name:"",email:"ana.souza@email.com",custom_attribute:{lp_educon_name:"Ana Souza",lp_educon_phone:"+5511988887777",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,salesforce_has_won_opportunities_last_12_months:false,cdp_cfm_specialty:"",cdp_crm_enrichment:[],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
-  aluno_1:{label:"Aluno ativo — 1 curso",ctx:{first_name:"Carlos",last_name:"Mendes",email:"carlos.mendes@email.com",custom_attribute:{lp_educon_name:"Carlos Mendes",lp_educon_phone:"+5521977776666",lp_educon_occupation:"Médico",cdp_alumni:false,cdp_customer_afya_pos_grad:true,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Clínica Médica",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"RJ",specialty:["Clínica Médica"]}],cdp_student_unity_course:[{course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"}],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
-  aluno_multi:{label:"Aluno ativo — múltiplos cursos",ctx:{first_name:"Beatriz",last_name:"Lima",email:"beatriz.lima@email.com",custom_attribute:{lp_educon_name:"Beatriz Lima",lp_educon_phone:"+5511966665555",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:true,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Pediatria",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Pediatria"]}],cdp_student_unity_course:[{course:"CURSO EXTENSIVO TEGO 2026",unit:"PAPERS"},{course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"},{course:"PÓS-GRADUAÇÃO LATO SENSU EM PEDIATRIA",unit:"AFYA SÃO PAULO"}],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
-  exaluno_1:{label:"Ex-aluno — 1 curso",ctx:{first_name:"Pedro",last_name:"Alves",email:"pedro.alves@email.com",custom_attribute:{lp_educon_name:"Pedro Alves",lp_educon_phone:"+5531955554444",lp_educon_occupation:"Médico",cdp_alumni:true,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Cardiologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"MG",specialty:["Cardiologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[{course:"PÓS-GRADUAÇÃO LATO SENSU EM CARDIOLOGIA",unit:"AFYA BELO HORIZONTE"}],salesforce_opportunity_array:[]}}},
-  exaluno_multi:{label:"Ex-aluno — múltiplos cursos",ctx:{first_name:"Mariana",last_name:"Costa",email:"mariana.costa@email.com",custom_attribute:{lp_educon_name:"Mariana Costa",lp_educon_phone:"+5541944443333",lp_educon_occupation:"Médica",cdp_alumni:true,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Endocrinologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"PR",specialty:["Endocrinologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[{course:"PÓS-GRADUAÇÃO LATO SENSU EM ENDOCRINOLOGIA",unit:"AFYA SÃO PAULO"},{course:"CURSO DE QUESTÕES TEN 2026",unit:"PAPERS"}],salesforce_opportunity_array:[]}}},
-  medico_crm:{label:"Médico com CRM",ctx:{first_name:"Roberto",last_name:"Faria",email:"roberto.faria@email.com",custom_attribute:{lp_educon_name:"Roberto Faria",lp_educon_phone:"+5511933332222",lp_educon_occupation:"Médico",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Dermatologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Dermatologia","Medicina Estética"]},{subscription_type:"Secundária",sg_uf_crm:"RJ",specialty:["Dermatologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
-  lead_opp:{label:"Lead com oportunidade",ctx:{first_name:"",last_name:"",email:"fernanda.torres@email.com",custom_attribute:{lp_educon_name:"Fernanda Torres",lp_educon_phone:"+5511922221111",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:true,salesforce_has_won_opportunities_last_12_months:false,salesforce_last_opportunity_stage:"Proposta Enviada",cdp_cfm_specialty:"Neurologia",cdp_crm_enrichment:[],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[{opportunity_stage:"Proposta Enviada",course:"Pós-Graduação em Neurologia",created_date:"2026-03-01"}]}}}
+  lead_puro:{label:"Lead puro",ctx:{first_name:"",last_name:"",email:"ana.souza&#64;email.com",custom_attribute:{lp_educon_name:"Ana Souza",lp_educon_phone:"+5511988887777",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,salesforce_has_won_opportunities_last_12_months:false,cdp_cfm_specialty:"",cdp_crm_enrichment:[],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
+  aluno_1:{label:"Aluno ativo — 1 curso",ctx:{first_name:"Carlos",last_name:"Mendes",email:"carlos.mendes&#64;email.com",custom_attribute:{lp_educon_name:"Carlos Mendes",lp_educon_phone:"+5521977776666",lp_educon_occupation:"Médico",cdp_alumni:false,cdp_customer_afya_pos_grad:true,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Clínica Médica",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"RJ",specialty:["Clínica Médica"]}],cdp_student_unity_course:[{course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"}],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
+  aluno_multi:{label:"Aluno ativo — múltiplos cursos",ctx:{first_name:"Beatriz",last_name:"Lima",email:"beatriz.lima&#64;email.com",custom_attribute:{lp_educon_name:"Beatriz Lima",lp_educon_phone:"+5511966665555",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:true,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Pediatria",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Pediatria"]}],cdp_student_unity_course:[{course:"CURSO EXTENSIVO TEGO 2026",unit:"PAPERS"},{course:"EXTENSIVO R1 COM MENTORIA INDIVIDUAL",unit:"MEDCEL"},{course:"PÓS-GRADUAÇÃO LATO SENSU EM PEDIATRIA",unit:"AFYA SÃO PAULO"}],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
+  exaluno_1:{label:"Ex-aluno — 1 curso",ctx:{first_name:"Pedro",last_name:"Alves",email:"pedro.alves&#64;email.com",custom_attribute:{lp_educon_name:"Pedro Alves",lp_educon_phone:"+5531955554444",lp_educon_occupation:"Médico",cdp_alumni:true,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Cardiologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"MG",specialty:["Cardiologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[{course:"PÓS-GRADUAÇÃO LATO SENSU EM CARDIOLOGIA",unit:"AFYA BELO HORIZONTE"}],salesforce_opportunity_array:[]}}},
+  exaluno_multi:{label:"Ex-aluno — múltiplos cursos",ctx:{first_name:"Mariana",last_name:"Costa",email:"mariana.costa&#64;email.com",custom_attribute:{lp_educon_name:"Mariana Costa",lp_educon_phone:"+5541944443333",lp_educon_occupation:"Médica",cdp_alumni:true,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Endocrinologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"PR",specialty:["Endocrinologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[{course:"PÓS-GRADUAÇÃO LATO SENSU EM ENDOCRINOLOGIA",unit:"AFYA SÃO PAULO"},{course:"CURSO DE QUESTÕES TEN 2026",unit:"PAPERS"}],salesforce_opportunity_array:[]}}},
+  medico_crm:{label:"Médico com CRM",ctx:{first_name:"Roberto",last_name:"Faria",email:"roberto.faria&#64;email.com",custom_attribute:{lp_educon_name:"Roberto Faria",lp_educon_phone:"+5511933332222",lp_educon_occupation:"Médico",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:false,cdp_cfm_specialty:"Dermatologia",cdp_crm_enrichment:[{subscription_type:"Principal",sg_uf_crm:"SP",specialty:["Dermatologia","Medicina Estética"]},{subscription_type:"Secundária",sg_uf_crm:"RJ",specialty:["Dermatologia"]}],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[]}}},
+  lead_opp:{label:"Lead com oportunidade",ctx:{first_name:"",last_name:"",email:"fernanda.torres&#64;email.com",custom_attribute:{lp_educon_name:"Fernanda Torres",lp_educon_phone:"+5511922221111",lp_educon_occupation:"Médica",cdp_alumni:false,cdp_customer_afya_pos_grad:false,salesforce_has_open_opportunities:true,salesforce_has_won_opportunities_last_12_months:false,salesforce_last_opportunity_stage:"Proposta Enviada",cdp_cfm_specialty:"Neurologia",cdp_crm_enrichment:[],cdp_student_unity_course:[],cdp_alumni_unity_course:[],salesforce_opportunity_array:[{opportunity_stage:"Proposta Enviada",course:"Pós-Graduação em Neurologia",created_date:"2026-03-01"}]}}}
 };
 
 const SNIPPETS=[
-  {label:"Nome com fallback (padrão Afya)",code:`{% if {{${first_name}}} != blank %}
-{{${first_name}}}
-{% elsif {{custom_attribute.${lp_educon_name}}} != blank %}
-{{custom_attribute.${lp_educon_name}}}
+  {label:"Nome com fallback (padrão Afya)",code:`{% if {{\${first_name}}} != blank %}
+{{\${first_name}}}
+{% elsif {{custom_attribute.\${lp_educon_name}}} != blank %}
+{{custom_attribute.\${lp_educon_name}}}
 {% else %}
 médico
 {% endif %}`},
-  {label:"Loop — cursos ativos",code:`{% for enrollment in {{custom_attribute.${cdp_student_unity_course}}} %}
+  {label:"Loop — cursos ativos",code:`{% for enrollment in {{custom_attribute.\${cdp_student_unity_course}}} %}
 • {{ enrollment.course }} — {{ enrollment.unit }}
 {% endfor %}`},
-  {label:"Loop — cursos concluídos",code:`{% for enrollment in {{custom_attribute.${cdp_alumni_unity_course}}} %}
+  {label:"Loop — cursos concluídos",code:`{% for enrollment in {{custom_attribute.\${cdp_alumni_unity_course}}} %}
 • {{ enrollment.course }} — {{ enrollment.unit }}
 {% endfor %}`},
-  {label:"Condicional — especialidade médica",code:`{% if {{custom_attribute.${cdp_cfm_specialty}}} != blank %}
-Especialidade: {{custom_attribute.${cdp_cfm_specialty}}}
+  {label:"Condicional — especialidade médica",code:`{% if {{custom_attribute.\${cdp_cfm_specialty}}} != blank %}
+Especialidade: {{custom_attribute.\${cdp_cfm_specialty}}}
 {% else %}
 Sem especialidade registrada
 {% endif %}`},
-  {label:"WhatsApp — abort se sem telefone",code:`{% if {{custom_attribute.${lp_educon_phone}}} != blank %}
-{{custom_attribute.${lp_educon_phone}}}
+  {label:"WhatsApp — abort se sem telefone",code:`{% if {{custom_attribute.\${lp_educon_phone}}} != blank %}
+{{custom_attribute.\${lp_educon_phone}}}
 {% else %}
 {% abort_message('Sem telefone disponivel') %}
 {% endif %}`},
-  {label:"Condicional — oportunidade aberta",code:`{% if {{custom_attribute.${salesforce_has_open_opportunities}}} == true %}
+  {label:"Condicional — oportunidade aberta",code:`{% if {{custom_attribute.\${salesforce_has_open_opportunities}}} == true %}
 Você tem uma proposta em andamento!
 {% else %}
 Que tal conhecer nossas opções?
 {% endif %}`},
-  {label:"CRM — UF de atuação primária",code:`{% for crm in {{custom_attribute.${cdp_crm_enrichment}}} %}
+  {label:"CRM — UF de atuação primária",code:`{% for crm in {{custom_attribute.\${cdp_crm_enrichment}}} %}
 {% if crm.subscription_type == 'Principal' %}
 {{ crm.sg_uf_crm }}
 {% endif %}
 {% endfor %}`},
-  {label:"Oportunidade — fase atual",code:`{% assign opp = {{custom_attribute.${salesforce_opportunity_array}}}[0] %}
+  {label:"Oportunidade — fase atual",code:`{% assign opp = {{custom_attribute.\${salesforce_opportunity_array}}}[0] %}
 Fase: {{ opp.opportunity_stage }} — Curso: {{ opp.course }}`}
 ];
 
 const EMAIL_TEMPLATES=[
   {label:"Nurture — Lead puro",
-   subject:`{% if {{${first_name}}} != blank %}{{${first_name}}}{% elsif {{custom_attribute.${lp_educon_name}}} != blank %}{{custom_attribute.${lp_educon_name}}}{% else %}Olá{% endif %}, que tal dar o próximo passo?`,
-   body:`<p>Olá{% if {{${first_name}}} != blank %}, <strong>{{${first_name}}}</strong>{% elsif {{custom_attribute.${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.${lp_educon_name}}}</strong>{% endif %}!</p>
+   subject:`{% if {{\${first_name}}} != blank %}{{\${first_name}}}{% elsif {{custom_attribute.\${lp_educon_name}}} != blank %}{{custom_attribute.\${lp_educon_name}}}{% else %}Olá{% endif %}, que tal dar o próximo passo?`,
+   body:`<p>Olá{% if {{\${first_name}}} != blank %}, <strong>{{\${first_name}}}</strong>{% elsif {{custom_attribute.\${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.\${lp_educon_name}}}</strong>{% endif %}!</p>
 <p>Recebemos seu interesse e adoraríamos te ajudar a encontrar o curso ideal.</p>
 <p>Em breve, um consultor entrará em contato. <a href="#">Explore nosso catálogo</a>.</p>`},
   {label:"Reengajamento — Ex-aluno",
-   subject:`Sentimos sua falta{% if {{${first_name}}} != blank %}, {{${first_name}}}{% endif %}!`,
-   body:`<p>Olá{% if {{${first_name}}} != blank %}, <strong>{{${first_name}}}</strong>{% elsif {{custom_attribute.${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.${lp_educon_name}}}</strong>{% endif %}!</p>
-{% for enrollment in {{custom_attribute.${cdp_alumni_unity_course}}} %}
+   subject:`Sentimos sua falta{% if {{\${first_name}}} != blank %}, {{\${first_name}}}{% endif %}!`,
+   body:`<p>Olá{% if {{\${first_name}}} != blank %}, <strong>{{\${first_name}}}</strong>{% elsif {{custom_attribute.\${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.\${lp_educon_name}}}</strong>{% endif %}!</p>
+{% for enrollment in {{custom_attribute.\${cdp_alumni_unity_course}}} %}
 <p>Você já concluiu conosco: <strong>{{ enrollment.course }}</strong> — {{ enrollment.unit }}</p>
 {% endfor %}
 <p>Temos novas turmas com condições especiais para ex-alunos. <a href="#">Quero saber mais</a>.</p>`},
   {label:"Aquisição — Por especialidade",
-   subject:`Conteúdo exclusivo para {% if {{custom_attribute.${cdp_cfm_specialty}}} != blank %}{{custom_attribute.${cdp_cfm_specialty}}}{% else %}sua especialidade{% endif %}`,
-   body:`<p>Olá{% if {{${first_name}}} != blank %}, <strong>{{${first_name}}}</strong>{% elsif {{custom_attribute.${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.${lp_educon_name}}}</strong>{% endif %}!</p>
-{% if {{custom_attribute.${cdp_cfm_specialty}}} != blank %}
-<p>Como especialista em <strong>{{custom_attribute.${cdp_cfm_specialty}}}</strong>, selecionamos cursos pensados para a sua área.</p>
+   subject:`Conteúdo exclusivo para {% if {{custom_attribute.\${cdp_cfm_specialty}}} != blank %}{{custom_attribute.\${cdp_cfm_specialty}}}{% else %}sua especialidade{% endif %}`,
+   body:`<p>Olá{% if {{\${first_name}}} != blank %}, <strong>{{\${first_name}}}</strong>{% elsif {{custom_attribute.\${lp_educon_name}}} != blank %}, <strong>{{custom_attribute.\${lp_educon_name}}}</strong>{% endif %}!</p>
+{% if {{custom_attribute.\${cdp_cfm_specialty}}} != blank %}
+<p>Como especialista em <strong>{{custom_attribute.\${cdp_cfm_specialty}}}</strong>, selecionamos cursos pensados para a sua área.</p>
 {% else %}
 <p>Preparamos uma seleção especial de cursos para você.</p>
 {% endif %}
@@ -544,279 +544,209 @@ function renderEvents(){
   }).join("");
 }
 
-/* ══ PLAYGROUND — Braze Liquid Engine ══
-   Implementado conforme documentação oficial:
-   https://www.braze.com/docs/user_guide/personalization_and_dynamic_content/liquid
-══════════════════════════════════════════ */
+/* ══ PLAYGROUND — Braze Liquid Engine (self-contained) ══
+   Syntax per: https://www.braze.com/docs/user_guide/personalization_and_dynamic_content/liquid
+══════════════════════════════════════════════════════════ */
 let pgCtx={};
 
-/* ── Normaliza template: converte sintaxe Braze para forma canônica ── */
-function normalizeTemplate(tpl) {
-  // {{${attr}}} → __STD__attr__
-  // {{custom_attribute.${attr}}} → __CA__attr__
-  // {{custom_attribute.${attr}}}[N] → __CAI__attr__N__
-  tpl = tpl.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g, '__CAI__$1__$2__');
-  tpl = tpl.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g, '__CA__$1__');
-  tpl = tpl.replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g, '__STD__$1__');
-  // {% assign x = {{custom_attribute.${attr}}}[N] %}
-  tpl = tpl.replace(/\{%\s*assign\s+(\w+)\s*=\s*\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]\s*%\}/g,
-    (_, v, attr, idx) => `{% assign ${v} = __CA__${attr}__[${idx}] %}`);
-  // {% assign x = {{custom_attribute.${attr}}} %}
-  tpl = tpl.replace(/\{%\s*assign\s+(\w+)\s*=\s*\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\s*%\}/g,
-    (_, v, attr) => `{% assign ${v} = __CA__${attr}__ %}`);
-  // for x in {{custom_attribute.${attr}}}
-  tpl = tpl.replace(/\{%\s*for\s+(\w+)\s+in\s+\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\s*%\}/g,
-    (_, v, attr) => `{% for ${v} in __CA__${attr}__ %}`);
-  // if {{custom_attribute.${attr}}} ...
-  tpl = tpl.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g, '__CA__$1__');
-  tpl = tpl.replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g, '__STD__$1__');
-  return tpl;
+function normalizeTpl(t){
+  t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'__CAI__$1__$2__');
+  t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'__CA__$1__');
+  t=t.replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'__STD__$1__');
+  t=t.replace(/\{%(\s*(?:assign|for|if|unless|elsif|else|endif|endfor|endunless|capture|endcapture|abort_message)[^%]*)%\}/g,(m,inner)=>{
+    let i=inner
+      .replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'__CAI__$1__$2__')
+      .replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'__CA__$1__')
+      .replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'__STD__$1__');
+    return '{%'+i+'%}';
+  });
+  return t;
 }
 
-/* ── Resolve um token no contexto ── */
-function resolveToken(token, ctx, vars) {
-  token = token.trim();
-  // assigned variable
-  if (token in vars) return vars[token];
-  // __STD__attr__
-  const std = token.match(/^__STD__(.+)__$/);
-  if (std) return ctx[std[1]] !== undefined ? ctx[std[1]] : '';
-  // __CA__attr__
-  const ca = token.match(/^__CA__(.+)__$/);
-  if (ca) return (ctx.custom_attribute||{})[ca[1]] !== undefined ? (ctx.custom_attribute||{})[ca[1]] : '';
-  // __CAI__attr__N__
-  const cai = token.match(/^__CAI__(.+)__(\d+)__$/);
-  if (cai) { const arr=(ctx.custom_attribute||{})[cai[1]]; return Array.isArray(arr)?arr[parseInt(cai[2])]:null; }
-  // array index: varname[N]
-  const ai = token.match(/^(.+)\[(\d+)\]$/);
-  if (ai) { const base=resolveToken(ai[1],ctx,vars); return Array.isArray(base)?base[parseInt(ai[2])]:null; }
-  // dot notation: var.prop
-  const parts = token.split('.');
-  let val = resolveToken(parts[0], ctx, vars);
-  for (let i=1; i<parts.length; i++) { if (val==null) return ''; val = val[parts[i]]; }
-  return val !== undefined ? val : '';
+function resolveTok(tok,ctx,vars){
+  tok=tok.trim();
+  if(tok in vars)return vars[tok];
+  let m;
+  if((m=tok.match(/^__STD__(.+)__$/)))return ctx[m[1]]!==undefined?ctx[m[1]]:'';
+  if((m=tok.match(/^__CA__(.+)__$/)))return(ctx.custom_attribute||{})[m[1]]!==undefined?(ctx.custom_attribute||{})[m[1]]:'';
+  if((m=tok.match(/^__CAI__(.+)__(\d+)__$/)))return Array.isArray((ctx.custom_attribute||{})[m[1]])?(ctx.custom_attribute||{})[m[1]][+m[2]]:null;
+  if((m=tok.match(/^(.+)\[(\d+)\]$/)))return Array.isArray(resolveTok(m[1],ctx,vars))?resolveTok(m[1],ctx,vars)[+m[2]]:null;
+  const parts=tok.split('.');
+  let v=resolveTok(parts[0],ctx,vars);
+  for(let i=1;i<parts.length;i++){if(v==null)return'';v=v[parts[i]];}
+  return v!==undefined?v:'';
 }
 
-/* ── Evalua condição booleana ── */
-function evalCond(cond, ctx, vars) {
-  cond = cond.trim();
-  // blank / nil checks
-  if (/!=\s*blank/.test(cond)) {
-    const v = resolveToken(cond.replace(/\s*!=\s*blank/,'').trim(), ctx, vars);
-    return v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length===0) && v !== false;
-  }
-  if (/==\s*blank/.test(cond)) {
-    const v = resolveToken(cond.replace(/\s*==\s*blank/,'').trim(), ctx, vars);
-    return v === null || v === undefined || v === '' || (Array.isArray(v) && v.length===0) || v === false;
-  }
-  if (/!=\s*nil/.test(cond)) { return resolveToken(cond.replace(/\s*!=\s*nil/,'').trim(), ctx, vars) != null; }
-  if (/==\s*nil/.test(cond))  { return resolveToken(cond.replace(/\s*==\s*nil/,'').trim(), ctx, vars) == null; }
-  // == true / == false (booleans — no quotes per Braze docs)
-  if (/==\s*true$/.test(cond))  return resolveToken(cond.replace(/\s*==\s*true$/,'').trim(), ctx, vars) === true;
-  if (/==\s*false$/.test(cond)) return resolveToken(cond.replace(/\s*==\s*false$/,'').trim(), ctx, vars) === false;
-  if (/!=\s*true$/.test(cond))  return resolveToken(cond.replace(/\s*!=\s*true$/,'').trim(), ctx, vars) !== true;
-  if (/!=\s*false$/.test(cond)) return resolveToken(cond.replace(/\s*!=\s*false$/,'').trim(), ctx, vars) !== false;
-  // contains (arrays and strings — Braze uses apostrophes for array values)
-  const cont = cond.match(/^(.+?)\s+contains\s+'([^']*)'$/);
-  if (cont) {
-    const v = resolveToken(cont[1].trim(), ctx, vars);
-    if (Array.isArray(v)) return v.includes(cont[2]);
-    if (typeof v === 'string') return v.includes(cont[2]);
-    return false;
-  }
-  // == 'string' / != 'string' (single quotes per Braze docs)
-  const eqS = cond.match(/^(.+?)\s*==\s*'([^']*)'$/);
-  if (eqS) return String(resolveToken(eqS[1].trim(), ctx, vars)) === eqS[2];
-  const neS = cond.match(/^(.+?)\s*!=\s*'([^']*)'$/);
-  if (neS) return String(resolveToken(neS[1].trim(), ctx, vars)) !== neS[2];
-  // == "string" / != "string" (double quotes — also accepted)
-  const eqD = cond.match(/^(.+?)\s*==\s*"([^"]*)"$/);
-  if (eqD) return String(resolveToken(eqD[1].trim(), ctx, vars)) === eqD[2];
-  const neD = cond.match(/^(.+?)\s*!=\s*"([^"]*)"$/);
-  if (neD) return String(resolveToken(neD[1].trim(), ctx, vars)) !== neD[2];
-  // numeric comparisons
-  const num = cond.match(/^(.+?)\s*(>=|<=|>|<)\s*(\d+\.?\d*)$/);
-  if (num) {
-    const v = parseFloat(resolveToken(num[1].trim(), ctx, vars));
-    const n = parseFloat(num[3]);
-    if (num[2]==='>=') return v>=n; if (num[2]==='<=') return v<=n;
-    if (num[2]==='>') return v>n;   if (num[2]==='<') return v<n;
-  }
-  // bare variable → truthy
-  return !!resolveToken(cond, ctx, vars);
+function evalCond(c,ctx,vars){
+  c=c.trim();
+  const nb=v=>v!==null&&v!==undefined&&v!==''&&!(Array.isArray(v)&&v.length===0)&&v!==false;
+  if(/!=\s*blank/.test(c))return nb(resolveTok(c.replace(/\s*!=\s*blank/,'').trim(),ctx,vars));
+  if(/==\s*blank/.test(c))return!nb(resolveTok(c.replace(/\s*==\s*blank/,'').trim(),ctx,vars));
+  if(/!=\s*nil/.test(c))return resolveTok(c.replace(/\s*!=\s*nil/,'').trim(),ctx,vars)!=null;
+  if(/==\s*nil/.test(c))return resolveTok(c.replace(/\s*==\s*nil/,'').trim(),ctx,vars)==null;
+  if(/==\s*true$/.test(c))return resolveTok(c.replace(/\s*==\s*true$/,'').trim(),ctx,vars)===true;
+  if(/==\s*false$/.test(c))return resolveTok(c.replace(/\s*==\s*false$/,'').trim(),ctx,vars)===false;
+  if(/!=\s*true$/.test(c))return resolveTok(c.replace(/\s*!=\s*true$/,'').trim(),ctx,vars)!==true;
+  if(/!=\s*false$/.test(c))return resolveTok(c.replace(/\s*!=\s*false$/,'').trim(),ctx,vars)!==false;
+  let m;
+  if((m=c.match(/^(.+?)\s+contains\s+'([^']*)'$/)))return(v=>Array.isArray(v)?v.includes(m[2]):typeof v==='string'&&v.includes(m[2]))(resolveTok(m[1].trim(),ctx,vars));
+  if((m=c.match(/^(.+?)\s*==\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];
+  if((m=c.match(/^(.+?)\s*!=\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];
+  if((m=c.match(/^(.+?)\s*==\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];
+  if((m=c.match(/^(.+?)\s*!=\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];
+  if((m=c.match(/^(.+?)\s*(>=|<=|>|<)\s*(-?\d+\.?\d*)$/))){const v=parseFloat(resolveTok(m[1].trim(),ctx,vars));const n=parseFloat(m[3]);return m[2]==='>='^0?v>=n:m[2]==='<='?v<=n:m[2]==='>'?v>n:v<n;}
+  return!!resolveTok(c,ctx,vars);
 }
 
-/* ── Motor principal ── */
-function evalBrazeLiquid(tpl, ctx, vars={}) {
-  tpl = normalizeTemplate(tpl);
-  let out = '';
-  let i = 0;
+function applyFilters(val,filterStr){
+  const fs=filterStr.split('|').map(f=>f.trim()).filter(Boolean);
+  for(const f of fs){
+    const [name,...rest]=f.split(':');
+    const arg=(rest.join(':').trim()).replace(/^['"]|['"]$/g,'');
+    const fn=name.trim();
+    if(fn==='default'&&(val===''||val===null||val===undefined||val===false))val=arg;
+    else if(fn==='upcase')val=String(val).toUpperCase();
+    else if(fn==='downcase')val=String(val).toLowerCase();
+    else if(fn==='capitalize')val=String(val).charAt(0).toUpperCase()+String(val).slice(1);
+    else if(fn==='strip')val=String(val).trim();
+    else if(fn==='size')val=Array.isArray(val)?val.length:String(val).length;
+    else if(fn==='first')val=Array.isArray(val)?val[0]:String(val)[0];
+    else if(fn==='last')val=Array.isArray(val)?val[val.length-1]:String(val).slice(-1);
+    else if(fn==='join')val=Array.isArray(val)?val.join(arg||', '):val;
+    else if(fn==='prepend')val=arg+String(val);
+    else if(fn==='append')val=String(val)+arg;
+    else if(fn==='remove')val=String(val).split(arg).join('');
+    else if(fn==='replace')val=String(val).split(arg).join(rest[1]?.trim().replace(/^['"]|['"]$/g,'')||'');
+  }
+  return val;
+}
 
-  function consumeBlock(stopTags) {
-    // Returns [rendered, endTag, newIndex]
-    let result = '';
-    while (i < tpl.length) {
-      // Find next tag
-      const tagStart = tpl.indexOf('{', i);
-      if (tagStart === -1) { result += tpl.slice(i); i = tpl.length; break; }
-      if (tpl[tagStart+1] === '{') {
-        // Output tag {{ ... }}
-        result += tpl.slice(i, tagStart);
-        const tagEnd = tpl.indexOf('}}', tagStart+2);
-        if (tagEnd === -1) { result += tpl.slice(tagStart); i = tpl.length; break; }
-        const expr = tpl.slice(tagStart+2, tagEnd).trim();
-        // Handle filters: expr | filter: arg
-        const pipeIdx = expr.indexOf('|');
-        if (pipeIdx > -1) {
-          const base = expr.slice(0, pipeIdx).trim();
-          const filters = expr.slice(pipeIdx+1).split('|');
-          let val = resolveToken(base, ctx, vars);
-          for (const f of filters) {
-            const fp = f.trim().split(':');
-            const fname = fp[0].trim();
-            const farg = fp[1] ? fp[1].trim().replace(/^['"]|['"]$/g,'') : '';
-            if (fname==='default' && (val===''||val===null||val===undefined||val===false)) val=farg;
-            else if (fname==='upcase') val=String(val).toUpperCase();
-            else if (fname==='downcase') val=String(val).toLowerCase();
-            else if (fname==='capitalize') val=String(val).charAt(0).toUpperCase()+String(val).slice(1);
-            else if (fname==='strip') val=String(val).trim();
-            else if (fname==='size') val=Array.isArray(val)?val.length:String(val).length;
-          }
-          result += (val !== null && val !== undefined) ? String(val) : '';
+function denorm(t){
+  t=t.replace(/__CAI__([^_]+)__(\d+)__/g,(_,a,n)=>`{{custom_attribute.\${${a}}}}[${n}]`);
+  t=t.replace(/__CA__([^_]+)__/g,(_,a)=>`{{custom_attribute.\${${a}}}}`);
+  t=t.replace(/__STD__([^_]+)__/g,(_,a)=>`{{\${${a}}}}`);
+  return t;
+}
+
+function brazeLiquid(tpl,ctx,vars={}){
+  tpl=normalizeTpl(tpl);
+  let pos=0;
+
+  function next(stopTags){
+    let out='';
+    while(pos<tpl.length){
+      const ob=tpl.indexOf('{',pos);
+      if(ob===-1){out+=tpl.slice(pos);pos=tpl.length;break;}
+      if(tpl[ob+1]==='{'){
+        out+=tpl.slice(pos,ob);
+        const ce=tpl.indexOf('}}',ob+2);
+        if(ce===-1){out+=tpl.slice(ob);pos=tpl.length;break;}
+        const expr=tpl.slice(ob+2,ce).trim();
+        const pi=expr.indexOf('|');
+        if(pi>-1){
+          const base=expr.slice(0,pi).trim();
+          let v=resolveTok(base,ctx,vars);
+          v=applyFilters(v,expr.slice(pi+1));
+          out+=(v!==null&&v!==undefined)?String(v):'';
         } else {
-          const val = resolveToken(expr, ctx, vars);
-          result += (val !== null && val !== undefined) ? String(val) : '';
+          const v=resolveTok(expr,ctx,vars);
+          out+=(v!==null&&v!==undefined)?String(v):'';
         }
-        i = tagEnd + 2;
-      } else if (tpl[tagStart+1] === '%') {
-        // Logic tag {% ... %}
-        result += tpl.slice(i, tagStart);
-        const tagEnd = tpl.indexOf('%}', tagStart+2);
-        if (tagEnd === -1) { result += tpl.slice(tagStart); i = tpl.length; break; }
-        const tag = tpl.slice(tagStart+2, tagEnd).trim();
-        i = tagEnd + 2;
-        // Check stop tags
-        const tagWord = tag.split(/\s+/)[0];
-        if (stopTags && stopTags.includes(tagWord)) return [result, tag, i];
-        // assign
-        if (tag.startsWith('assign ')) {
-          const m = tag.match(/^assign\s+(\w+)\s*=\s*(.+)$/);
-          if (m) {
-            const rhs = m[2].trim().replace(/^['"]|['"]$/g,'');
-            let val = resolveToken(m[2].trim(), ctx, vars);
-            // if resolveToken returned the raw string (not found), try literal
-            if (val === m[2].trim()) {
-              // numeric literal
-              if (/^\d+\.?\d*$/.test(rhs)) val = parseFloat(rhs);
-              else val = rhs;
+        pos=ce+2;
+      } else if(tpl[ob+1]==='%'){
+        out+=tpl.slice(pos,ob);
+        const ce=tpl.indexOf('%}',ob+2);
+        if(ce===-1){out+=tpl.slice(ob);pos=tpl.length;break;}
+        const tag=tpl.slice(ob+2,ce).trim();
+        pos=ce+2;
+        const tw=tag.split(/\s+/)[0];
+        if(stopTags&&stopTags.includes(tw))return[out,tag];
+        if(tw==='assign'){
+          const m=tag.match(/^assign\s+(\w+)\s*=\s*(.+)$/);
+          if(m){
+            let rhs=m[2].trim();
+            let v=resolveTok(rhs,ctx,vars);
+            if(v===rhs){
+              const clean=rhs.replace(/^['"]|['"]$/g,'');
+              v=/^-?\d+\.?\d*$/.test(clean)?parseFloat(clean):clean;
             }
-            vars[m[1]] = val;
+            vars[m[1]]=v;
           }
-        }
-        // if
-        else if (tag.startsWith('if ')) {
-          const cond = tag.slice(3).trim();
-          const [body, endTag] = consumeBlock(['elsif','else','endif']);
-          if (evalCond(cond, ctx, vars)) {
-            result += body;
-            // skip until endif
-            if (endTag && endTag !== 'endif') skipUntil(['endif']);
+        } else if(tw==='if'){
+          const cond=tag.slice(3).trim();
+          const [body,et]=next(['elsif','else','endif']);
+          if(evalCond(cond,ctx,vars)){
+            out+=body;
+            if(et&&et!=='endif')skipTo(['endif']);
           } else {
-            let foundTrue = false;
-            let lastTag = endTag;
-            while (lastTag && lastTag !== 'endif') {
-              const ec = lastTag.startsWith('elsif ') ? lastTag.slice(6).trim() : null;
-              const [b2, et2] = consumeBlock(['elsif','else','endif']);
-              lastTag = et2;
-              if (!foundTrue && (ec ? evalCond(ec,ctx,vars) : lastTag===undefined||et2!=='endif'||ec===null)) {
-                if (!ec || evalCond(ec,ctx,vars)) { result += b2; foundTrue = true; }
+            let found=false,lastTag=et;
+            while(lastTag&&lastTag!=='endif'){
+              const ec=lastTag.startsWith('elsif ')?lastTag.slice(6).trim():null;
+              const [b2,et2]=next(['elsif','else','endif']);
+              lastTag=et2;
+              if(!found&&(ec?evalCond(ec,ctx,vars):!ec)){
+                out+=b2;found=true;
               }
             }
           }
-        }
-        // unless
-        else if (tag.startsWith('unless ')) {
-          const cond = tag.slice(7).trim();
-          const [body] = consumeBlock(['endunless']);
-          if (!evalCond(cond, ctx, vars)) result += body;
-        }
-        // for
-        else if (tag.startsWith('for ')) {
-          const m = tag.match(/^for\s+(\w+)\s+in\s+(.+)$/);
-          const [body] = consumeBlock(['endfor']);
-          if (m) {
-            const arr = resolveToken(m[2].trim(), ctx, vars);
-            if (Array.isArray(arr)) {
-              for (let j=0; j<arr.length; j++) {
-                const loopVars = {...vars, [m[1]]: arr[j],
-                  'forloop.index': j+1, 'forloop.index0': j,
-                  'forloop.first': j===0, 'forloop.last': j===arr.length-1};
-                result += evalBrazeLiquid(denormalize(body), ctx, loopVars);
+        } else if(tw==='unless'){
+          const cond=tag.slice(7).trim();
+          const[body]=next(['endunless']);
+          if(!evalCond(cond,ctx,vars))out+=body;
+        } else if(tw==='for'){
+          const m=tag.match(/^for\s+(\w+)\s+in\s+(.+)$/);
+          const[body]=next(['endfor']);
+          if(m){
+            const arr=resolveTok(m[2].trim(),ctx,vars);
+            if(Array.isArray(arr)){
+              for(let j=0;j<arr.length;j++){
+                const lv={...vars,[m[1]]:arr[j],'forloop.index':j+1,'forloop.index0':j,'forloop.first':j===0,'forloop.last':j===arr.length-1};
+                out+=brazeLiquid(denorm(body),ctx,lv);
               }
             }
           }
-        }
-        // abort_message
-        else if (tag.startsWith('abort_message')) {
-          const m = tag.match(/abort_message\(['"]([^'"]*)['"]\)/);
-          throw new Error('abort_message: ' + (m?m[1]:'mensagem abortada'));
-        }
-        // capture / endcapture — basic support
-        else if (tag.startsWith('capture ')) {
-          const varName = tag.slice(8).trim();
-          const [body] = consumeBlock(['endcapture']);
-          vars[varName] = evalBrazeLiquid(denormalize(body), ctx, {...vars});
-        }
-        // comment / endcomment
-        else if (tag === 'comment') { consumeBlock(['endcomment']); }
-        // raw / endraw
-        else if (tag === 'raw') {
-          const end = tpl.indexOf('{%', i);
-          result += tpl.slice(i, end===-1?tpl.length:end);
-          if (end!==-1) { i=tpl.indexOf('%}',end)+2; }
+        } else if(tw==='capture'){
+          const vn=tag.slice(8).trim();
+          const[body]=next(['endcapture']);
+          vars[vn]=brazeLiquid(denorm(body),ctx,{...vars});
+        } else if(tw==='comment'){
+          next(['endcomment']);
+        } else if(tw==='abort_message'){
+          const m=tag.match(/abort_message\(['"]([^'"]*)['"]\)/);
+          throw new Error('abort_message: '+(m?m[1]:'mensagem abortada'));
         }
       } else {
-        result += tpl[tagStart];
-        i = tagStart + 1;
+        out+=tpl[ob];pos=ob+1;
       }
     }
-    return [result, null, i];
+    return[out,null];
   }
 
-  function skipUntil(tags) {
-    let depth = 0;
-    while (i < tpl.length) {
-      const s = tpl.indexOf('{%', i);
-      if (s===-1) { i=tpl.length; return; }
-      const e = tpl.indexOf('%}', s+2);
-      const tag = tpl.slice(s+2, e).trim().split(/\s+/)[0];
-      i = e+2;
-      if (['if','for','unless','capture','comment'].includes(tag)) depth++;
-      else if (['endif','endfor','endunless','endcapture','endcomment'].includes(tag) && depth>0) depth--;
-      else if (tags.includes(tag) && depth===0) return;
+  function skipTo(tags){
+    let depth=0;
+    while(pos<tpl.length){
+      const s=tpl.indexOf('{%',pos);
+      if(s===-1){pos=tpl.length;return;}
+      const e=tpl.indexOf('%}',s+2);
+      const tw=tpl.slice(s+2,e).trim().split(/\s+/)[0];
+      pos=e+2;
+      if(['if','for','unless','capture','comment'].includes(tw))depth++;
+      else if(['endif','endfor','endunless','endcapture','endcomment'].includes(tw)&&depth>0)depth--;
+      else if(tags.includes(tw)&&depth===0)return;
     }
   }
 
-  const [result] = consumeBlock(null);
+  const[result]=next(null);
   return result;
 }
 
-function denormalize(tpl) {
-  tpl = tpl.replace(/__CAI__([^_]+)__(\d+)__/g, (_, a, n) => `{{custom_attribute.\${${a}}}}\[${n}]`);
-  tpl = tpl.replace(/__CA__([^_]+)__/g, (_, a) => `{{custom_attribute.\${${a}}}}`);
-  tpl = tpl.replace(/__STD__([^_]+)__/g, (_, a) => `{{\${${a}}}}`);
-  return tpl;
+function renderLiquid(template,ctx){
+  try{return Promise.resolve(brazeLiquid(template,ctx,{}));}
+  catch(e){return Promise.reject(e);}
 }
 
-function renderLiquid(template, ctx) {
-  try {
-    return Promise.resolve(evalBrazeLiquid(template, ctx, {}));
-  } catch(e) {
-    return Promise.reject(e);
-  }
-}
+function initEngine(){}
 
-function initEngine() {} // no-op, engine is self-contained
 
 function initSnippets(){
   document.getElementById("snippets-list").innerHTML=SNIPPETS.map((s,i)=>`
@@ -908,4 +838,15 @@ async function renderEmail(){
     document.getElementById("email-body-preview").innerHTML=rb.trim()||'<span style="color:#B0AAA2;font-size:13px">Corpo vazio.</span>';
   } catch(e){
     document.getElementById("email-subj-preview").textContent="Erro: "+e.message;
-    document.getElement
+    document.getElementById("email-body-preview").innerHTML=`<span style="color:var(--red);font-size:13px">Erro: ${e.message}</span>`;
+  }
+}
+
+/* ══ INIT ══ */
+renderAttrs();
+renderEvents();
+initSnippets();
+initEngine();
+</script>
+</body>
+</html>
