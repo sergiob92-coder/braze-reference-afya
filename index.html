@@ -549,90 +549,17 @@ function renderEvents(){
 ══════════════════════════════════════════════════════════ */
 let pgCtx={};
 
-function normalizeTpl(t){
-  t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'__CAI__$1__$2__');
-  t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'__CA__$1__');
-  t=t.replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'__STD__$1__');
-  t=t.replace(/\{%(\s*(?:assign|for|if|unless|elsif|else|endif|endfor|endunless|capture|endcapture|abort_message)[^%]*)%\}/g,(m,inner)=>{
-    let i=inner
-      .replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'__CAI__$1__$2__')
-      .replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'__CA__$1__')
-      .replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'__STD__$1__');
-    return '{%'+i+'%}';
-  });
-  return t;
-}
+function normalizeTpl(t){t=t.replace(/\{%(\s*(?:assign|for|if|unless|elsif|else|endif|endfor|endunless|capture|endcapture|abort_message)[^%]*)%\}/g,(m,inner)=>{inner=inner.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'__CAI__$1__$2__').replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'__CA__$1__').replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'__STD__$1__');return'{%'+inner+'%}';});t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}\[(\d+)\]/g,'{{__CAI__$1__$2__}}');t=t.replace(/\{\{\s*custom_attribute\.\$\{([^}]+)\}\s*\}\}/g,'{{__CA__$1__}}');t=t.replace(/\{\{\s*\$\{([^}]+)\}\s*\}\}/g,'{{__STD__$1__}}');return t;}
 
-function resolveTok(tok,ctx,vars){
-  tok=tok.trim();
-  if(tok in vars)return vars[tok];
-  let m;
-  if((m=tok.match(/^__STD__(.+)__$/)))return ctx[m[1]]!==undefined?ctx[m[1]]:'';
-  if((m=tok.match(/^__CA__(.+)__$/)))return(ctx.custom_attribute||{})[m[1]]!==undefined?(ctx.custom_attribute||{})[m[1]]:'';
-  if((m=tok.match(/^__CAI__(.+)__(\d+)__$/)))return Array.isArray((ctx.custom_attribute||{})[m[1]])?(ctx.custom_attribute||{})[m[1]][+m[2]]:null;
-  if((m=tok.match(/^(.+)\[(\d+)\]$/)))return Array.isArray(resolveTok(m[1],ctx,vars))?resolveTok(m[1],ctx,vars)[+m[2]]:null;
-  const parts=tok.split('.');
-  let v=resolveTok(parts[0],ctx,vars);
-  for(let i=1;i<parts.length;i++){if(v==null)return'';v=v[parts[i]];}
-  return v!==undefined?v:'';
-}
+function resolveTok(tok,ctx,vars){tok=tok.trim();if(tok in vars)return vars[tok];let m;if((m=tok.match(/^__STD__(.+)__$/)))return ctx[m[1]]!==undefined?ctx[m[1]]:'';if((m=tok.match(/^__CA__(.+)__$/))){const ca=ctx.custom_attribute||{};return ca[m[1]]!==undefined?ca[m[1]]:'';}if((m=tok.match(/^__CAI__(.+)__(\d+)__$/))){const arr=(ctx.custom_attribute||{})[m[1]];return Array.isArray(arr)?arr[+m[2]]:null;}if((m=tok.match(/^(.+)\[(\d+)\]$/))){const base=resolveTok(m[1],ctx,vars);return Array.isArray(base)?base[+m[2]]:null;}const parts=tok.split('.');if(parts.length>1){let v=resolveTok(parts[0],ctx,vars);for(let i=1;i<parts.length;i++){if(v==null||typeof v!=='object')return'';v=v[parts[i]];}return v!==undefined?v:'';}return'';}
 
-function evalCond(c,ctx,vars){
-  c=c.trim();
-  const nb=v=>v!==null&&v!==undefined&&v!==''&&!(Array.isArray(v)&&v.length===0)&&v!==false;
-  if(/!=\s*blank/.test(c))return nb(resolveTok(c.replace(/\s*!=\s*blank/,'').trim(),ctx,vars));
-  if(/==\s*blank/.test(c))return!nb(resolveTok(c.replace(/\s*==\s*blank/,'').trim(),ctx,vars));
-  if(/!=\s*nil/.test(c))return resolveTok(c.replace(/\s*!=\s*nil/,'').trim(),ctx,vars)!=null;
-  if(/==\s*nil/.test(c))return resolveTok(c.replace(/\s*==\s*nil/,'').trim(),ctx,vars)==null;
-  if(/==\s*true$/.test(c))return resolveTok(c.replace(/\s*==\s*true$/,'').trim(),ctx,vars)===true;
-  if(/==\s*false$/.test(c))return resolveTok(c.replace(/\s*==\s*false$/,'').trim(),ctx,vars)===false;
-  if(/!=\s*true$/.test(c))return resolveTok(c.replace(/\s*!=\s*true$/,'').trim(),ctx,vars)!==true;
-  if(/!=\s*false$/.test(c))return resolveTok(c.replace(/\s*!=\s*false$/,'').trim(),ctx,vars)!==false;
-  let m;
-  if((m=c.match(/^(.+?)\s+contains\s+'([^']*)'$/)))return(v=>Array.isArray(v)?v.includes(m[2]):typeof v==='string'&&v.includes(m[2]))(resolveTok(m[1].trim(),ctx,vars));
-  if((m=c.match(/^(.+?)\s*==\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];
-  if((m=c.match(/^(.+?)\s*!=\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];
-  if((m=c.match(/^(.+?)\s*==\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];
-  if((m=c.match(/^(.+?)\s*!=\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];
-  if((m=c.match(/^(.+?)\s*(>=|<=|>|<)\s*(-?\d+\.?\d*)$/))){const v=parseFloat(resolveTok(m[1].trim(),ctx,vars));const n=parseFloat(m[3]);return m[2]==='>='^0?v>=n:m[2]==='<='?v<=n:m[2]==='>'?v>n:v<n;}
-  return!!resolveTok(c,ctx,vars);
-}
+function evalCond(c,ctx,vars){c=c.trim();const nb=v=>v!==null&&v!==undefined&&v!==''&&!(Array.isArray(v)&&v.length===0)&&v!==false;let m;if(/!=\s*blank/.test(c))return nb(resolveTok(c.replace(/\s*!=\s*blank/,'').trim(),ctx,vars));if(/==\s*blank/.test(c))return!nb(resolveTok(c.replace(/\s*==\s*blank/,'').trim(),ctx,vars));if(/!=\s*nil/.test(c))return resolveTok(c.replace(/\s*!=\s*nil/,'').trim(),ctx,vars)!=null;if(/==\s*nil/.test(c))return resolveTok(c.replace(/\s*==\s*nil/,'').trim(),ctx,vars)==null;if(/==\s*true$/.test(c))return resolveTok(c.replace(/\s*==\s*true$/,'').trim(),ctx,vars)===true;if(/==\s*false$/.test(c))return resolveTok(c.replace(/\s*==\s*false$/,'').trim(),ctx,vars)===false;if(/!=\s*true$/.test(c))return resolveTok(c.replace(/\s*!=\s*true$/,'').trim(),ctx,vars)!==true;if(/!=\s*false$/.test(c))return resolveTok(c.replace(/\s*!=\s*false$/,'').trim(),ctx,vars)!==false;if((m=c.match(/^(.+?)\s+contains\s+'([^']*)'$/)))return(v=>Array.isArray(v)?v.includes(m[2]):typeof v==='string'&&v.includes(m[2]))(resolveTok(m[1].trim(),ctx,vars));if((m=c.match(/^(.+?)\s*==\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];if((m=c.match(/^(.+?)\s*!=\s*'([^']*)'$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];if((m=c.match(/^(.+?)\s*==\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))===m[2];if((m=c.match(/^(.+?)\s*!=\s*"([^"]*)"$/)))return String(resolveTok(m[1].trim(),ctx,vars))!==m[2];if((m=c.match(/^(.+?)\s*(>=|<=|>|<)\s*(-?\d+\.?\d*)$/))){const v=parseFloat(resolveTok(m[1].trim(),ctx,vars));const n=parseFloat(m[3]);return m[2]==='>='^0?v>=n:m[2]==='<='?v<=n:m[2]==='>'?v>n:v<n;}return!!resolveTok(c,ctx,vars);}
 
-function applyFilters(val,filterStr){
-  const fs=filterStr.split('|').map(f=>f.trim()).filter(Boolean);
-  for(const f of fs){
-    const [name,...rest]=f.split(':');
-    const arg=(rest.join(':').trim()).replace(/^['"]|['"]$/g,'');
-    const fn=name.trim();
-    if(fn==='default'&&(val===''||val===null||val===undefined||val===false))val=arg;
-    else if(fn==='upcase')val=String(val).toUpperCase();
-    else if(fn==='downcase')val=String(val).toLowerCase();
-    else if(fn==='capitalize')val=String(val).charAt(0).toUpperCase()+String(val).slice(1);
-    else if(fn==='strip')val=String(val).trim();
-    else if(fn==='size')val=Array.isArray(val)?val.length:String(val).length;
-    else if(fn==='first')val=Array.isArray(val)?val[0]:String(val)[0];
-    else if(fn==='last')val=Array.isArray(val)?val[val.length-1]:String(val).slice(-1);
-    else if(fn==='join')val=Array.isArray(val)?val.join(arg||', '):val;
-    else if(fn==='prepend')val=arg+String(val);
-    else if(fn==='append')val=String(val)+arg;
-    else if(fn==='remove')val=String(val).split(arg).join('');
-    else if(fn==='replace')val=String(val).split(arg).join(rest[1]?.trim().replace(/^['"]|['"]$/g,'')||'');
-  }
-  return val;
-}
+function applyFilters(val,filterStr){const fs=filterStr.split('|').map(f=>f.trim()).filter(Boolean);for(const f of fs){const[name,...rest]=f.split(':');const arg=rest.join(':').trim().replace(/^['"]|['"]$/g,'');const fn=name.trim();if(fn==='default'&&(val===''||val==null||val===false))val=arg;else if(fn==='upcase')val=String(val).toUpperCase();else if(fn==='downcase')val=String(val).toLowerCase();else if(fn==='capitalize')val=String(val).charAt(0).toUpperCase()+String(val).slice(1);else if(fn==='strip')val=String(val).trim();else if(fn==='size')val=Array.isArray(val)?val.length:String(val).length;else if(fn==='first')val=Array.isArray(val)?val[0]:String(val)[0];else if(fn==='last')val=Array.isArray(val)?val[val.length-1]:String(val).slice(-1);else if(fn==='join')val=Array.isArray(val)?val.join(arg||', '):val;else if(fn==='prepend')val=arg+String(val);else if(fn==='append')val=String(val)+arg;else if(fn==='remove')val=String(val).split(arg).join('');else if(fn==='replace')val=String(val).split(arg).join(rest[1]?.trim().replace(/^['"]|['"]$/g,'')||'');}return val;}
 
-function denorm(t){
-  t=t.replace(/__CAI__([^_]+)__(\d+)__/g,(_,a,n)=>`{{custom_attribute.\${${a}}}}[${n}]`);
-  t=t.replace(/__CA__([^_]+)__/g,(_,a)=>`{{custom_attribute.\${${a}}}}`);
-  t=t.replace(/__STD__([^_]+)__/g,(_,a)=>`{{\${${a}}}}`);
-  return t;
-}
-
-function brazeLiquid(tpl,ctx,vars={}){
-  tpl=normalizeTpl(tpl);
+function makeEngine(tpl,ctx,vars){
   let pos=0;
-
-  function next(stopTags){
+  function render(stopTags){
     let out='';
     while(pos<tpl.length){
       const ob=tpl.indexOf('{',pos);
@@ -643,102 +570,68 @@ function brazeLiquid(tpl,ctx,vars={}){
         if(ce===-1){out+=tpl.slice(ob);pos=tpl.length;break;}
         const expr=tpl.slice(ob+2,ce).trim();
         const pi=expr.indexOf('|');
-        if(pi>-1){
-          const base=expr.slice(0,pi).trim();
-          let v=resolveTok(base,ctx,vars);
-          v=applyFilters(v,expr.slice(pi+1));
-          out+=(v!==null&&v!==undefined)?String(v):'';
-        } else {
-          const v=resolveTok(expr,ctx,vars);
-          out+=(v!==null&&v!==undefined)?String(v):'';
-        }
+        if(pi>-1){let v=resolveTok(expr.slice(0,pi).trim(),ctx,vars);v=applyFilters(v,expr.slice(pi+1));out+=(v!=null)?String(v):'';}
+        else{const v=resolveTok(expr,ctx,vars);out+=(v!=null)?String(v):'';}
         pos=ce+2;
-      } else if(tpl[ob+1]==='%'){
+      }else if(tpl[ob+1]==='%'){
         out+=tpl.slice(pos,ob);
         const ce=tpl.indexOf('%}',ob+2);
         if(ce===-1){out+=tpl.slice(ob);pos=tpl.length;break;}
         const tag=tpl.slice(ob+2,ce).trim();
         pos=ce+2;
-        const tw=tag.split(/\s+/)[0];
+        const tw=(tag.match(/^\w+/)||[''])[0];
         if(stopTags&&stopTags.includes(tw))return[out,tag];
-        if(tw==='assign'){
-          const m=tag.match(/^assign\s+(\w+)\s*=\s*(.+)$/);
-          if(m){
-            let rhs=m[2].trim();
-            let v=resolveTok(rhs,ctx,vars);
-            if(v===rhs){
-              const clean=rhs.replace(/^['"]|['"]$/g,'');
-              v=/^-?\d+\.?\d*$/.test(clean)?parseFloat(clean):clean;
-            }
-            vars[m[1]]=v;
-          }
-        } else if(tw==='if'){
+        if(tw==='assign'){const m=tag.match(/^assign\s+(\w+)\s*=\s*(.+)$/);if(m){let rhs=m[2].trim();let v=resolveTok(rhs,ctx,vars);if(v===rhs){const c=rhs.replace(/^['"]|['"]$/g,'');v=/^-?\d+\.?\d*$/.test(c)?parseFloat(c):c;}vars[m[1]]=v;}}
+        else if(tw==='if'){
           const cond=tag.slice(3).trim();
-          const [body,et]=next(['elsif','else','endif']);
-          if(evalCond(cond,ctx,vars)){
-            out+=body;
-            if(et&&et!=='endif')skipTo(['endif']);
-          } else {
-            let found=false,lastTag=et;
-            while(lastTag&&lastTag!=='endif'){
-              const ec=lastTag.startsWith('elsif ')?lastTag.slice(6).trim():null;
-              const [b2,et2]=next(['elsif','else','endif']);
-              lastTag=et2;
-              if(!found&&(ec?evalCond(ec,ctx,vars):!ec)){
-                out+=b2;found=true;
-              }
-            }
-          }
-        } else if(tw==='unless'){
-          const cond=tag.slice(7).trim();
-          const[body]=next(['endunless']);
-          if(!evalCond(cond,ctx,vars))out+=body;
-        } else if(tw==='for'){
+          const[body,et]=render(['elsif','else','endif']);
+          if(evalCond(cond,ctx,vars)){out+=body;if(et&&et!=='endif')skipTo(['endif']);}
+          else{let found=false,lastTag=et;while(lastTag&&lastTag!=='endif'){const ec=lastTag.startsWith('elsif ')?lastTag.slice(6).trim():null;const[b2,et2]=render(['elsif','else','endif']);lastTag=et2;if(!found&&(ec?evalCond(ec,ctx,vars):!ec)){out+=b2;found=true;}}}
+        }else if(tw==='unless'){const cond=tag.slice(7).trim();const[body]=render(['endunless']);if(!evalCond(cond,ctx,vars))out+=body;}
+        else if(tw==='for'){
           const m=tag.match(/^for\s+(\w+)\s+in\s+(.+)$/);
-          const[body]=next(['endfor']);
-          if(m){
-            const arr=resolveTok(m[2].trim(),ctx,vars);
-            if(Array.isArray(arr)){
-              for(let j=0;j<arr.length;j++){
-                const lv={...vars,[m[1]]:arr[j],'forloop.index':j+1,'forloop.index0':j,'forloop.first':j===0,'forloop.last':j===arr.length-1};
-                out+=brazeLiquid(denorm(body),ctx,lv);
-              }
-            }
-          }
-        } else if(tw==='capture'){
-          const vn=tag.slice(8).trim();
-          const[body]=next(['endcapture']);
-          vars[vn]=brazeLiquid(denorm(body),ctx,{...vars});
-        } else if(tw==='comment'){
-          next(['endcomment']);
-        } else if(tw==='abort_message'){
-          const m=tag.match(/abort_message\(['"]([^'"]*)['"]\)/);
-          throw new Error('abort_message: '+(m?m[1]:'mensagem abortada'));
-        }
-      } else {
-        out+=tpl[ob];pos=ob+1;
-      }
+          const rawBody=extractRaw(['endfor']);
+          if(m){const arr=resolveTok(m[2].trim(),ctx,vars);if(Array.isArray(arr)){for(let j=0;j<arr.length;j++){const lv={...vars,[m[1]]:arr[j],'forloop.index':j+1,'forloop.index0':j,'forloop.first':j===0,'forloop.last':j===arr.length-1};out+=runRaw(rawBody,ctx,lv);}}}
+        }else if(tw==='capture'){const vn=tag.slice(8).trim();const rawBody=extractRaw(['endcapture']);vars[vn]=runRaw(rawBody,ctx,{...vars});}
+        else if(tw==='comment'){extractRaw(['endcomment']);}
+        else if(tw==='abort_message'){const m=tag.match(/abort_message\(['"]([^'"]*)['"]\)/);throw new Error('abort_message: '+(m?m[1]:'mensagem abortada'));}
+      }else{out+=tpl[ob];pos=ob+1;}
     }
     return[out,null];
   }
-
+  function extractRaw(stopTags){
+    const start=pos;let depth=0;
+    const opens=['if','for','unless','capture','comment'];
+    const closes=['endif','endfor','endunless','endcapture','endcomment'];
+    while(pos<tpl.length){
+      const s=tpl.indexOf('{%',pos);if(s===-1){pos=tpl.length;break;}
+      const e=tpl.indexOf('%}',s+2);if(e===-1){pos=tpl.length;break;}
+      const tw=(tpl.slice(s+2,e).trim().match(/^\w+/)||[''])[0];
+      pos=e+2;
+      if(opens.includes(tw))depth++;
+      else if(closes.includes(tw)&&depth>0)depth--;
+      else if(stopTags.includes(tw)&&depth===0)return tpl.slice(start,s);
+    }
+    return tpl.slice(start);
+  }
   function skipTo(tags){
     let depth=0;
     while(pos<tpl.length){
-      const s=tpl.indexOf('{%',pos);
-      if(s===-1){pos=tpl.length;return;}
+      const s=tpl.indexOf('{%',pos);if(s===-1){pos=tpl.length;return;}
       const e=tpl.indexOf('%}',s+2);
-      const tw=tpl.slice(s+2,e).trim().split(/\s+/)[0];
+      const tw=(tpl.slice(s+2,e).trim().match(/^\w+/)||[''])[0];
       pos=e+2;
       if(['if','for','unless','capture','comment'].includes(tw))depth++;
       else if(['endif','endfor','endunless','endcapture','endcomment'].includes(tw)&&depth>0)depth--;
       else if(tags.includes(tw)&&depth===0)return;
     }
   }
-
-  const[result]=next(null);
-  return result;
+  return{render,extractRaw,skipTo};
 }
+
+function runRaw(rawTpl,ctx,vars){const eng=makeEngine(rawTpl,ctx,vars);const[result]=eng.render(null);return result;}
+
+function brazeLiquid(tpl,ctx,vars={}){tpl=normalizeTpl(tpl);const eng=makeEngine(tpl,ctx,vars);const[result]=eng.render(null);return result;}
 
 function renderLiquid(template,ctx){
   try{return Promise.resolve(brazeLiquid(template,ctx,{}));}
@@ -746,7 +639,6 @@ function renderLiquid(template,ctx){
 }
 
 function initEngine(){}
-
 
 function initSnippets(){
   document.getElementById("snippets-list").innerHTML=SNIPPETS.map((s,i)=>`
